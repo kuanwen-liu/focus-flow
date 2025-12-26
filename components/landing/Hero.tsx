@@ -1,32 +1,44 @@
 'use client'
 
 import Link from 'next/link'
-import { useMemo } from 'react'
-
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { ROUTES } from '@/lib/constants/routes'
+import { SoundWaveViz } from './SoundWaveViz'
+import { audioController } from '@/lib/audio/AudioController'
 
 export const Hero = () => {
-    // Generate spectrogram bars (vertical bars like audio visualization)
-    const spectrogramBars = useMemo(() => {
-        const barCount = 80;
-        const bars = [];
+    const [isDemoPlaying, setIsDemoPlaying] = useState(false)
 
-        for (let i = 0; i < barCount; i++) {
-        // Create varied heights using sine waves for organic look
-        const baseHeight = 0.3 + 0.4 * Math.sin(i * 0.15);
-        const variation = 0.3 * Math.sin(i * 0.4) * Math.cos(i * 0.7);
-        const height = Math.max(0.1, Math.min(0.95, baseHeight + variation));
+    const handleListenDemo = async () => {
+      if (isDemoPlaying) {
+        audioController.pauseAll()
+        setIsDemoPlaying(false)
+        return
+      }
 
-        bars.push({
-            id: i,
-            height: height * 200,
-            delay: i * 0.01,
-        });
-        }
+      try {
+        // Add demo preset layers (Deep Work preset)
+        await audioController.addLayer('rain-heavy', 0.6)
+        await audioController.addLayer('white-noise', 0.3)
 
-        return bars;
-    }, []);
+        // Play the demo
+        await audioController.playAll()
+        setIsDemoPlaying(true)
+
+        // Auto-stop after 15 seconds
+        setTimeout(() => {
+          audioController.pauseAll()
+          // Remove demo layers
+          audioController.activeLayers.forEach(layer => {
+            audioController.removeLayer(layer.id)
+          })
+          setIsDemoPlaying(false)
+        }, 15000)
+      } catch (error) {
+        console.error('Failed to play demo:', error)
+      }
+    }
   
     return (
      <section className="relative w-full flex flex-col items-center justify-center min-h-[90vh] px-6 py-20 overflow-hidden">
@@ -75,79 +87,19 @@ export const Hero = () => {
                 Start Mixing
               </button>
             </Link>
-            <button className="flex items-center justify-center h-14 px-8 rounded-full bg-transparent border border-gray-300 dark:border-[#3b4d54] text-gray-900 dark:text-white text-lg font-medium hover:bg-gray-100 dark:hover:bg-[#1c2427] transition-all">
-              <span className="material-symbols-outlined mr-2">play_circle</span>
-              Listen Demo
+            <button
+              onClick={handleListenDemo}
+              className="flex items-center justify-center h-14 px-8 rounded-full bg-transparent border border-gray-300 dark:border-[#3b4d54] text-gray-900 dark:text-white text-lg font-medium hover:bg-gray-100 dark:hover:bg-[#1c2427] transition-all"
+            >
+              <span className="material-symbols-outlined mr-2">
+                {isDemoPlaying ? 'stop_circle' : 'play_circle'}
+              </span>
+              {isDemoPlaying ? 'Stop Demo' : 'Listen Demo'}
             </button>
           </motion.div>
 
           {/* Sound Wave Visual */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, delay: 0.6 }}
-            className="mt-12 w-full max-w-4xl relative group"
-          >
-            {/* Glow effect */}
-            <div className="absolute -inset-1 bg-gradient-to-r from-primary to-purple-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200" />
-
-            {/* Visual container */}
-            <div className="relative flex items-center justify-center aspect-[21/9] w-full rounded-xl bg-gradient-to-b from-[#151f24] to-[#101d22] border border-gray-200 dark:border-[#283539] overflow-hidden">
-              <div className="flex items-end justify-center gap-1 h-24 w-full px-20 opacity-80">
-                {spectrogramBars.map((bar) => (
-                  <motion.div
-                    key={bar.id}
-                    initial={{ height: '10%', opacity: 0 }}
-                    animate={{
-                      height: [
-                        '10%',
-                        `${bar.height}%`,
-                        `${bar.height * 0.7}%`,
-                        `${bar.height * 0.9}%`,
-                        `${bar.height * 0.6}%`,
-                        `${bar.height}%`,
-                      ],
-                      opacity: [0, 1, 1, 1, 1, 1],
-                    }}
-                    transition={{
-                      duration: 3,
-                      delay: bar.delay,
-                      repeat: Infinity,
-                      ease: 'easeInOut',
-                      times: [0, 0.2, 0.4, 0.6, 0.8, 1],
-                    }}
-                    className="w-1.5 bg-gradient-to-t from-primary/60 via-primary to-primary/80 rounded-full shadow-[0_0_10px_var(--color-primary)]"
-                  />
-                ))}
-                {/* {[
-                  { height: '40%', opacity: 0.8, duration: 1.5 },
-                  { height: '70%', opacity: 0.6, duration: 1.2 },
-                  { height: '50%', opacity: 0.9, duration: 1.8 },
-                  { height: '30%', opacity: 0.5, duration: 2.1 },
-                  { height: '80%', opacity: 0.7, duration: 1.4 },
-                  { height: '45%', opacity: 0.4, duration: 1.9 },
-                  { height: '60%', opacity: 0.8, duration: 1.6 },
-                ].map((bar, i) => (
-                  <motion.div
-                    key={i}
-                    className="w-3 bg-primary rounded-t-sm"
-                    style={{
-                      height: bar.height,
-                      opacity: bar.opacity
-                    }}
-                    animate={{
-                      scale: [1, 1.1, 1],
-                    }}
-                    transition={{
-                      duration: bar.duration,
-                      repeat: Infinity,
-                      ease: 'easeInOut',
-                    }}
-                  />
-                ))} */}
-              </div>
-            </div>
-          </motion.div>
+          <SoundWaveViz />
         </div>
       </section>   
     )
