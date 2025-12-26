@@ -147,23 +147,23 @@
 
 ### Implementation for User Story 3
 
-- [ ] T076 [P] [US3] Create EditHeader component in components/edit/EditHeader.tsx with editable mix name field
-- [ ] T077 [P] [US3] Create SoundSearch component in components/edit/SoundSearch.tsx for adding new sounds
-- [ ] T078 [P] [US3] Create LayerEditor component in components/edit/LayerEditor.tsx with solo/remove buttons
-- [ ] T079 [US3] Create Edit Mix page in app/edit/[id]/page.tsx with dynamic route parameter
-- [ ] T080 [US3] Load mix from useMixStore by ID on Edit page mount
-- [ ] T081 [US3] Pre-populate AudioController with existing layers and volumes from loaded mix
-- [ ] T082 [US3] Implement editable mix name field updating in real-time
-- [ ] T083 [US3] Implement add sound layer functionality from search results
-- [ ] T084 [US3] Implement remove layer button on each layer card
-- [ ] T085 [US3] Implement solo button toggling AudioController layer solo state per contracts/audio-events.md
-- [ ] T086 [US3] Add volume adjustment with real-time preview during editing
-- [ ] T087 [US3] Implement "Save Mix" button calling useMixStore.updateMix() with new timestamp
-- [ ] T088 [US3] Implement "Discard Changes" button navigating back without saving
-- [ ] T089 [US3] Add confirmation dialog if user tries to navigate away with unsaved changes
-- [ ] T090 [US3] Add popular sound suggestions as quick-add pills (Fireplace, Ocean Waves, Wind, Lo-Fi Beats)
-- [ ] T091 [US3] Create sticky footer with Discard/Save buttons per /docs/edit-saved-mix.html
-- [ ] T092 [US3] Style Edit Mix page matching /docs/edit-saved-mix.html design and layout
+- [X] T076 [P] [US3] Create EditHeader component in components/edit/EditHeader.tsx with editable mix name field
+- [X] T077 [P] [US3] Create SoundSearch component in components/edit/SoundSearch.tsx for adding new sounds
+- [X] T078 [P] [US3] Create LayerEditor component in components/edit/LayerEditor.tsx with solo/remove buttons
+- [X] T079 [US3] Create Edit Mix page in app/edit/[id]/page.tsx with dynamic route parameter
+- [X] T080 [US3] Load mix from useMixStore by ID on Edit page mount
+- [X] T081 [US3] Pre-populate AudioController with existing layers and volumes from loaded mix
+- [X] T082 [US3] Implement editable mix name field updating in real-time
+- [X] T083 [US3] Implement add sound layer functionality from search results
+- [X] T084 [US3] Implement remove layer button on each layer card
+- [X] T085 [US3] Implement solo button toggling AudioController layer solo state per contracts/audio-events.md
+- [X] T086 [US3] Add volume adjustment with real-time preview during editing
+- [X] T087 [US3] Implement "Save Mix" button calling useMixStore.updateMix() with new timestamp
+- [X] T088 [US3] Implement "Discard Changes" button navigating back without saving
+- [X] T089 [US3] Add confirmation dialog if user tries to navigate away with unsaved changes
+- [X] T090 [US3] Add popular sound suggestions as quick-add pills (Fireplace, Ocean Waves, Wind, Lo-Fi Beats)
+- [X] T091 [US3] Create sticky footer with Discard/Save buttons per /docs/edit-saved-mix.html
+- [X] T092 [US3] Style Edit Mix page matching /docs/edit-saved-mix.html design and layout
 
 **Checkpoint**: All user stories should now be independently functional
 
