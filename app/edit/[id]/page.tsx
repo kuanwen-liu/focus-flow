@@ -32,8 +32,8 @@ export default function EditMixPage() {
   useEffect(() => {
     const loadedMix = getMixById(mixId)
     if (!loadedMix) {
-      // Mix not found, redirect to library
-      router.push('/library')
+      // Mix not found, redirect to saved mixes
+      router.push('/saved-mixes')
       return
     }
 
@@ -167,7 +167,7 @@ export default function EditMixPage() {
     setErrorMessage('Mix saved successfully!')
     setTimeout(() => {
       setErrorMessage(null)
-      router.push('/library')
+      router.push('/saved-mixes')
     }, 1500)
   }
 
@@ -175,7 +175,7 @@ export default function EditMixPage() {
     if (hasUnsavedChanges) {
       setShowDiscardDialog(true)
     } else {
-      router.push('/library')
+      router.push('/saved-mixes')
     }
   }
 
@@ -189,7 +189,7 @@ export default function EditMixPage() {
     audioController.pauseAll()
     setIsPlaying(false)
 
-    router.push('/library')
+    router.push('/saved-mixes')
   }
 
   if (!mix) {

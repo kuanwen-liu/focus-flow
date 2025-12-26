@@ -86,7 +86,7 @@ export default function LibraryPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <h1 className="text-4xl font-bold text-text-primary mb-2">My Mixes</h1>
+          <h1 className="text-4xl font-bold text-text-primary mb-2">Saved Mixes</h1>
           <p className="text-text-secondary mb-8">
             Your saved ambient sound mixes
           </p>

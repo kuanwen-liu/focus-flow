@@ -63,13 +63,13 @@ export default function NotFound() {
               Start Mixing
             </motion.button>
           </Link>
-          <Link href={ROUTES.LIBRARY}>
+          <Link href={ROUTES.SAVED_MIXES}>
             <motion.button
               className="w-full sm:w-auto px-6 py-3 bg-background border border-border text-text-primary rounded-lg font-medium hover:border-primary transition-all"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              My Library
+              Saved Mixes
             </motion.button>
           </Link>
         </div>

@@ -3,6 +3,6 @@
 export const ROUTES = {
   HOME: '/',
   MIXER: '/mixer',
-  LIBRARY: '/library',
+  SAVED_MIXES: '/saved-mixes',
   EDIT: (mixId: string) => `/edit/${mixId}`,
 } as const

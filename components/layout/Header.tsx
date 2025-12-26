@@ -26,12 +26,6 @@ export const Header = () => {
         <div className="flex items-center gap-4 md:gap-8">
           {/* Navigation - Hidden on mobile */}
           <div className="hidden md:flex items-center gap-6">
-            <Link
-              href={ROUTES.LIBRARY}
-              className="text-sm font-medium leading-normal opacity-70 hover:opacity-100 transition-opacity text-text-primary"
-            >
-              My Library
-            </Link>
             <a
               href="#"
               className="text-sm font-medium leading-normal opacity-70 hover:opacity-100 transition-opacity text-text-primary"
@@ -40,10 +34,13 @@ export const Header = () => {
             </a>
           </div>
 
-          {/* Save Mix Button */}
-          <button className="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-9 px-4 bg-primary text-white dark:text-[#111618] text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors">
-            <span className="truncate">Save Mix</span>
-          </button>
+          {/* Saved Mixes Button */}
+          <Link
+            href={ROUTES.SAVED_MIXES}
+            className="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-9 px-4 bg-primary text-white dark:text-[#111618] text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors"
+          >
+            Saved Mixes
+          </Link>
 
           {/* User Avatar */}
           <div
