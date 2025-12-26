@@ -45,7 +45,9 @@
 
 @layer components {
   .glassmorphism {
-    @apply bg-card/80 backdrop-blur-md border border-border;
+    background-color: rgba(28, 41, 47, 0.8);
+    backdrop-filter: blur(12px);
+    @apply border border-border;
   }
 
   .glow-primary {
