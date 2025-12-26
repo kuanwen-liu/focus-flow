@@ -1,0 +1,140 @@
+// lib/constants/sounds.ts
+
+import { SoundDefinition, FocusModePreset } from '@/types/sound'
+
+export const SOUND_CATALOG: SoundDefinition[] = [
+  {
+    id: 'rain-heavy',
+    name: 'Heavy Rain',
+    category: 'Nature Sounds',
+    icon: 'rainy',
+    color: 'blue-500',
+    mainPath: '/sounds/rain/main-rain.mp4',
+    gluePath: '/sounds/rain/glue-rain.mp4',
+    description: 'Steady rainfall for deep focus',
+  },
+  {
+    id: 'thunder-distant',
+    name: 'Distant Thunder',
+    category: 'Nature Sounds',
+    icon: 'thunderstorm',
+    color: 'purple-500',
+    mainPath: '/sounds/thunder/main-thunder.mp4',
+    gluePath: '/sounds/thunder/glue-thunder.mp4',
+  },
+  {
+    id: 'waves-ocean',
+    name: 'Ocean Waves',
+    category: 'Nature Sounds',
+    icon: 'waves',
+    color: 'cyan-500',
+    mainPath: '/sounds/waves/main-waves.mp4',
+    gluePath: '/sounds/waves/glue-waves.mp4',
+  },
+  {
+    id: 'wind-gentle',
+    name: 'Ocean Wind',
+    category: 'Nature Sounds',
+    icon: 'air',
+    color: 'cyan-500',
+    mainPath: '/sounds/wind/main-wind.mp4',
+    gluePath: '/sounds/wind/glue-wind.mp4',
+  },
+  {
+    id: 'fire-crackling',
+    name: 'Crackling Fire',
+    category: 'City & Ambience',
+    icon: 'fireplace',
+    color: 'orange-500',
+    mainPath: '/sounds/fire/main-fire.mp4',
+    gluePath: '/sounds/fire/glue-fire.mp4',
+  },
+  {
+    id: 'birds-forest',
+    name: 'Forest Birds',
+    category: 'Nature Sounds',
+    icon: 'flutter_dash',
+    color: 'green-500',
+    mainPath: '/sounds/birds/main-birds.mp4',
+    gluePath: '/sounds/birds/glue-birds.mp4',
+  },
+  {
+    id: 'crickets-night',
+    name: 'Night Crickets',
+    category: 'Nature Sounds',
+    icon: 'bug_report',
+    color: 'green-500',
+    mainPath: '/sounds/crickets/main-crickets.mp4',
+    gluePath: '/sounds/crickets/glue-crickets.mp4',
+  },
+  {
+    id: 'coffee-shop',
+    name: 'Coffee Shop',
+    category: 'City & Ambience',
+    icon: 'local_cafe',
+    color: 'amber-500',
+    mainPath: '/sounds/coffee-shop/main-people.mp4',
+    gluePath: '/sounds/coffee-shop/glue-people.mp4',
+  },
+  {
+    id: 'singing-bowl',
+    name: 'Singing Bowl',
+    category: 'White Noise & Focus',
+    icon: 'graphic_eq',
+    color: 'purple-500',
+    mainPath: '/sounds/singing-bowl/main-sbowl.mp4',
+    gluePath: '/sounds/singing-bowl/glue-sbowl.mp4',
+  },
+  {
+    id: 'white-noise',
+    name: 'White Noise',
+    category: 'White Noise & Focus',
+    icon: 'waves',
+    color: 'gray-400',
+    mainPath: '/sounds/white-noise/main-whitenoise.mp4',
+    gluePath: '/sounds/white-noise/glue-whitenoise.mp4',
+  },
+]
+
+export const FOCUS_MODE_PRESETS: FocusModePreset[] = [
+  {
+    id: 'deep-work',
+    name: 'Deep Work',
+    icon: 'psychology',
+    description: 'Intense focus with minimal distractions',
+    soundLayers: [
+      { soundId: 'rain-heavy', volume: 60 },
+      { soundId: 'white-noise', volume: 30 },
+    ],
+  },
+  {
+    id: 'reading',
+    name: 'Reading',
+    icon: 'menu_book',
+    description: 'Gentle background for reading',
+    soundLayers: [
+      { soundId: 'coffee-shop', volume: 40 },
+      { soundId: 'rain-heavy', volume: 20 },
+    ],
+  },
+  {
+    id: 'meditation',
+    name: 'Meditation',
+    icon: 'self_improvement',
+    description: 'Calm sounds for meditation',
+    soundLayers: [
+      { soundId: 'singing-bowl', volume: 50 },
+      { soundId: 'wind-gentle', volume: 30 },
+    ],
+  },
+  {
+    id: 'nap',
+    name: 'Nap',
+    icon: 'bedtime',
+    description: 'Soothing sounds for rest',
+    soundLayers: [
+      { soundId: 'waves-ocean', volume: 40 },
+      { soundId: 'white-noise', volume: 20 },
+    ],
+  },
+]
