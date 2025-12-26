@@ -82,27 +82,27 @@
 
 ### Implementation for User Story 1
 
-- [ ] T037 [P] [US1] Create SoundCard component in components/mixer/SoundCard.tsx displaying sound name, icon, category
-- [ ] T038 [P] [US1] Create SoundCategories component in components/mixer/SoundCategories.tsx with collapsible categories
-- [ ] T039 [P] [US1] Create VolumeSlider component in components/mixer/VolumeSlider.tsx with real-time updates and glow effect
-- [ ] T040 [P] [US1] Create ActiveLayers component in components/mixer/ActiveLayers.tsx displaying added sounds
-- [ ] T041 [P] [US1] Create FloatingControls component in components/mixer/FloatingControls.tsx with play/pause and master volume
-- [ ] T042 [US1] Create Mixer Interface page in app/mixer/page.tsx integrating all mixer components
-- [ ] T043 [US1] Implement add sound layer logic in Mixer page connecting SoundCard clicks to AudioController
-- [ ] T044 [US1] Implement remove sound layer logic with delete button on ActiveLayers cards
-- [ ] T045 [US1] Wire up individual layer volume sliders to AudioController.setLayerVolume()
-- [ ] T046 [US1] Wire up master volume slider to AudioController.setMasterVolume()
-- [ ] T047 [US1] Implement play/pause button logic calling AudioController.playAll() and pauseAll()
-- [ ] T048 [US1] Add audio event listeners for playbackStateChange in Mixer page
-- [ ] T049 [US1] Add audio event listeners for volumeChange in Mixer page
-- [ ] T050 [US1] Add audio event listeners for loadError with error toast notifications
-- [ ] T051 [US1] Implement Focus Mode preset pills in Mixer page with click handlers
-- [ ] T052 [US1] Add search bar functionality in Mixer page to filter available sounds
-- [ ] T053 [US1] Implement layer limit validation (max 10 layers) with user notification
-- [ ] T054 [US1] Handle autoplay policy blocking with manual play button overlay per research.md
-- [ ] T055 [US1] Add loading states for audio files with spinner on sound cards
-- [ ] T056 [US1] Create minimal landing page in app/page.tsx with "Start Mixing" CTA linking to /mixer
-- [ ] T057 [US1] Style Mixer Interface matching /docs/ambient-mixer-interface.html colors and layout
+- [X] T037 [P] [US1] Create SoundCard component in components/mixer/SoundCard.tsx displaying sound name, icon, category
+- [X] T038 [P] [US1] Create SoundCategories component in components/mixer/SoundCategories.tsx with collapsible categories
+- [X] T039 [P] [US1] Create VolumeSlider component in components/mixer/VolumeSlider.tsx with real-time updates and glow effect
+- [X] T040 [P] [US1] Create ActiveLayers component in components/mixer/ActiveLayers.tsx displaying added sounds
+- [X] T041 [P] [US1] Create FloatingControls component in components/mixer/FloatingControls.tsx with play/pause and master volume
+- [X] T042 [US1] Create Mixer Interface page in app/mixer/page.tsx integrating all mixer components
+- [X] T043 [US1] Implement add sound layer logic in Mixer page connecting SoundCard clicks to AudioController
+- [X] T044 [US1] Implement remove sound layer logic with delete button on ActiveLayers cards
+- [X] T045 [US1] Wire up individual layer volume sliders to AudioController.setLayerVolume()
+- [X] T046 [US1] Wire up master volume slider to AudioController.setMasterVolume()
+- [X] T047 [US1] Implement play/pause button logic calling AudioController.playAll() and pauseAll()
+- [X] T048 [US1] Add audio event listeners for playbackStateChange in Mixer page
+- [X] T049 [US1] Add audio event listeners for volumeChange in Mixer page
+- [X] T050 [US1] Add audio event listeners for loadError with error toast notifications
+- [X] T051 [US1] Implement Focus Mode preset pills in Mixer page with click handlers
+- [X] T052 [US1] Add search bar functionality in Mixer page to filter available sounds
+- [X] T053 [US1] Implement layer limit validation (max 10 layers) with user notification
+- [X] T054 [US1] Handle autoplay policy blocking with manual play button overlay per research.md
+- [X] T055 [US1] Add loading states for audio files with spinner on sound cards
+- [X] T056 [US1] Create minimal landing page in app/page.tsx with "Start Mixing" CTA linking to /mixer
+- [X] T057 [US1] Style Mixer Interface matching /docs/ambient-mixer-interface.html colors and layout
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently
 

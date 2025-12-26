@@ -12,6 +12,20 @@ interface SoundCardProps {
   disabled?: boolean
 }
 
+// Map color strings to Tailwind classes
+const getColorClass = (color: string): string => {
+  const colorMap: Record<string, string> = {
+    'blue-500': 'bg-blue-500',
+    'purple-500': 'bg-purple-500',
+    'cyan-500': 'bg-cyan-500',
+    'orange-500': 'bg-orange-500',
+    'green-500': 'bg-green-500',
+    'amber-500': 'bg-amber-500',
+    'gray-400': 'bg-gray-400',
+  }
+  return colorMap[color] || 'bg-primary'
+}
+
 export const SoundCard: FC<SoundCardProps> = ({
   sound,
   onAdd,
@@ -32,7 +46,7 @@ export const SoundCard: FC<SoundCardProps> = ({
         className="w-full text-left"
       >
         <div className="flex items-center gap-3">
-          <div className={`w-12 h-12 rounded-lg bg-${sound.color} flex items-center justify-center`}>
+          <div className={`w-12 h-12 rounded-lg ${getColorClass(sound.color)} flex items-center justify-center`}>
             <span className="material-symbols-outlined text-white text-2xl">
               {sound.icon}
             </span>
