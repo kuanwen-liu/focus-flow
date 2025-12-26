@@ -1,6 +1,6 @@
-import { Hero } from '@/components/layout/Hero'
-import { Features } from '@/components/layout/Features'
-import { CTAButtons } from '@/components/layout/CTAButtons'
+import { Hero } from '@/components/landing/Hero'
+import { Features } from '@/components/landing/Features'
+import { CTAButtons } from '@/components/landing/CTAButtons'
 
 export default function Home() {
   return (
