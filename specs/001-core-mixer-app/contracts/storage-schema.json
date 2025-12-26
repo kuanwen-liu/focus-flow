@@ -1,0 +1,194 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Focus Mixer localStorage Schema",
+  "description": "JSON schema for data persisted in browser localStorage via Zustand persist middleware",
+  "definitions": {
+    "MixLayer": {
+      "type": "object",
+      "properties": {
+        "soundId": {
+          "type": "string",
+          "description": "Reference to SoundDefinition.id",
+          "examples": ["rain-heavy", "white-noise", "coffee-shop"]
+        },
+        "soundName": {
+          "type": "string",
+          "description": "Cached display name from SoundDefinition",
+          "examples": ["Heavy Rain", "White Noise", "Coffee Shop"]
+        },
+        "category": {
+          "type": "string",
+          "description": "Cached category from SoundDefinition",
+          "enum": ["Nature Sounds", "City & Ambience", "White Noise & Focus"]
+        },
+        "volume": {
+          "type": "number",
+          "description": "Volume percentage (0-100)",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether this layer is currently active",
+          "default": true
+        }
+      },
+      "required": ["soundId", "soundName", "category", "volume", "enabled"],
+      "additionalProperties": false
+    },
+    "Mix": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique mix identifier (timestamp + random string)",
+          "pattern": "^[0-9]+-[a-z0-9]+$",
+          "examples": ["1703518800000-abc123"]
+        },
+        "name": {
+          "type": "string",
+          "description": "User-defined mix name",
+          "minLength": 1,
+          "maxLength": 100,
+          "examples": ["Deep Work - Rainy", "Morning Meditation", "Focus Cocoon"]
+        },
+        "layers": {
+          "type": "array",
+          "description": "Array of sound layers in this mix",
+          "items": {
+            "$ref": "#/definitions/MixLayer"
+          },
+          "minItems": 1,
+          "maxItems": 10
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "ISO 8601 timestamp when mix was created",
+          "format": "date-time",
+          "examples": ["2025-12-25T10:00:00.000Z"]
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "ISO 8601 timestamp when mix was last updated",
+          "format": "date-time",
+          "examples": ["2025-12-25T14:30:00.000Z"]
+        },
+        "tags": {
+          "type": "array",
+          "description": "Category tags for filtering",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 10,
+          "examples": [["Focus", "Rain"], ["Meditation", "Nature"], ["Sleep"]]
+        }
+      },
+      "required": ["id", "name", "layers", "createdAt", "updatedAt", "tags"],
+      "additionalProperties": false
+    },
+    "MixStoreState": {
+      "type": "object",
+      "properties": {
+        "mixes": {
+          "type": "array",
+          "description": "Array of all saved mixes",
+          "items": {
+            "$ref": "#/definitions/Mix"
+          },
+          "maxItems": 50
+        },
+        "currentMixId": {
+          "type": ["string", "null"],
+          "description": "ID of currently selected/playing mix",
+          "examples": ["1703518800000-abc123", null]
+        }
+      },
+      "required": ["mixes", "currentMixId"],
+      "additionalProperties": false
+    }
+  },
+  "type": "object",
+  "properties": {
+    "focus-mixer-mixes": {
+      "type": "object",
+      "description": "Zustand persist wrapper for mix store",
+      "properties": {
+        "state": {
+          "$ref": "#/definitions/MixStoreState"
+        },
+        "version": {
+          "type": "number",
+          "description": "Schema version for migrations",
+          "default": 1
+        }
+      },
+      "required": ["state", "version"]
+    }
+  },
+  "required": ["focus-mixer-mixes"],
+  "examples": [
+    {
+      "focus-mixer-mixes": {
+        "state": {
+          "mixes": [
+            {
+              "id": "1703518800000-abc123",
+              "name": "Deep Work - Rainy",
+              "layers": [
+                {
+                  "soundId": "rain-heavy",
+                  "soundName": "Heavy Rain",
+                  "category": "Nature Sounds",
+                  "volume": 80,
+                  "enabled": true
+                },
+                {
+                  "soundId": "white-noise",
+                  "soundName": "White Noise",
+                  "category": "White Noise & Focus",
+                  "volume": 40,
+                  "enabled": true
+                },
+                {
+                  "soundId": "thunder-distant",
+                  "soundName": "Distant Thunder",
+                  "category": "Nature Sounds",
+                  "volume": 20,
+                  "enabled": true
+                }
+              ],
+              "createdAt": "2025-12-25T10:00:00.000Z",
+              "updatedAt": "2025-12-25T14:30:00.000Z",
+              "tags": ["Focus", "Rain"]
+            },
+            {
+              "id": "1703519100000-def456",
+              "name": "Morning Meditation",
+              "layers": [
+                {
+                  "soundId": "singing-bowl",
+                  "soundName": "Singing Bowl",
+                  "category": "White Noise & Focus",
+                  "volume": 60,
+                  "enabled": true
+                },
+                {
+                  "soundId": "wind-gentle",
+                  "soundName": "Ocean Wind",
+                  "category": "Nature Sounds",
+                  "volume": 30,
+                  "enabled": true
+                }
+              ],
+              "createdAt": "2025-12-25T11:00:00.000Z",
+              "updatedAt": "2025-12-25T11:00:00.000Z",
+              "tags": ["Meditation", "Nature"]
+            }
+          ],
+          "currentMixId": "1703518800000-abc123"
+        },
+        "version": 1
+      }
+    }
+  ]
+}
