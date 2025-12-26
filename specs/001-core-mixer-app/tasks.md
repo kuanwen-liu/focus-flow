@@ -116,24 +116,24 @@
 
 ### Implementation for User Story 2
 
-- [ ] T058 [P] [US2] Create MixCard component in components/library/MixCard.tsx displaying mix name, sounds, tags, timestamp
-- [ ] T059 [P] [US2] Create SearchBar component in components/library/SearchBar.tsx for real-time filtering
-- [ ] T060 [P] [US2] Create CategoryFilters component in components/library/CategoryFilters.tsx with active state
-- [ ] T061 [US2] Create My Mixes page in app/library/page.tsx displaying all saved mixes
-- [ ] T062 [US2] Implement save mix dialog/modal with name input and validation in Mixer page
-- [ ] T063 [US2] Wire save button to create Mix object with unique ID (timestamp + random)
-- [ ] T064 [US2] Call useMixStore.addMix() to persist to localStorage via Zustand persist
-- [ ] T065 [US2] Implement search functionality filtering mixes by name or sound components
-- [ ] T066 [US2] Implement category filter buttons (All, Focus, Sleep, Nature, Favorites)
-- [ ] T067 [US2] Add play button to MixCard loading mix layers into AudioController
-- [ ] T068 [US2] Add delete button to MixCard with confirmation dialog
-- [ ] T069 [US2] Implement delete logic calling useMixStore.deleteMix() to remove from localStorage
-- [ ] T070 [US2] Add visual distinction for currently playing mix (primary border, pulsing indicator)
-- [ ] T071 [US2] Add "Now Playing" badge to active mix card
-- [ ] T072 [US2] Implement "Create New Mix" CTA button navigating to /mixer
-- [ ] T073 [US2] Handle localStorage quota exceeded errors with user notification to delete old mixes
-- [ ] T074 [US2] Add hydration guard in Library page to prevent SSR mismatch per research.md
-- [ ] T075 [US2] Style My Mixes page matching /docs/manage-saved-mixes.html layout and colors
+- [X] T058 [P] [US2] Create MixCard component in components/library/MixCard.tsx displaying mix name, sounds, tags, timestamp
+- [X] T059 [P] [US2] Create SearchBar component in components/library/SearchBar.tsx for real-time filtering
+- [X] T060 [P] [US2] Create CategoryFilters component in components/library/CategoryFilters.tsx with active state
+- [X] T061 [US2] Create My Mixes page in app/library/page.tsx displaying all saved mixes
+- [X] T062 [US2] Implement save mix dialog/modal with name input and validation in Mixer page
+- [X] T063 [US2] Wire save button to create Mix object with unique ID (timestamp + random)
+- [X] T064 [US2] Call useMixStore.addMix() to persist to localStorage via Zustand persist
+- [X] T065 [US2] Implement search functionality filtering mixes by name or sound components
+- [X] T066 [US2] Implement category filter buttons (All, Focus, Sleep, Nature, Favorites)
+- [X] T067 [US2] Add play button to MixCard loading mix layers into AudioController
+- [X] T068 [US2] Add delete button to MixCard with confirmation dialog
+- [X] T069 [US2] Implement delete logic calling useMixStore.deleteMix() to remove from localStorage
+- [X] T070 [US2] Add visual distinction for currently playing mix (primary border, pulsing indicator)
+- [X] T071 [US2] Add "Now Playing" badge to active mix card
+- [X] T072 [US2] Implement "Create New Mix" CTA button navigating to /mixer
+- [X] T073 [US2] Handle localStorage quota exceeded errors with user notification to delete old mixes
+- [X] T074 [US2] Add hydration guard in Library page to prevent SSR mismatch per research.md
+- [X] T075 [US2] Style My Mixes page matching /docs/manage-saved-mixes.html layout and colors
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work independently
 

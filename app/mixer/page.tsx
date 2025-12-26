@@ -1,21 +1,43 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { FocusModePresets } from '@/components/mixer/FocusModePresets'
 import { SoundCategoriesCollapsible } from '@/components/mixer/SoundCategoriesCollapsible'
 import { FloatingControls } from '@/components/mixer/FloatingControls'
+import { SaveMixDialog } from '@/components/mixer/SaveMixDialog'
 import { SOUND_CATALOG, FOCUS_MODE_PRESETS } from '@/lib/constants/sounds'
 import { audioController } from '@/lib/audio/AudioController'
 import { useAudioStore } from '@/lib/state/useAudioStore'
+import { useMixStore } from '@/lib/state/useMixStore'
 import { volumeToPercentage } from '@/lib/audio/MasterVolume'
+import type { Mix } from '@/types/mix'
 
-export default function MixerPage() {
+function MixerContent() {
+  const router = useRouter()
+  const searchParams = useSearchParams()
   const [searchQuery, setSearchQuery] = useState('')
   const [activePresetId, setActivePresetId] = useState<string | null>(null)
   const [showAutoplayPrompt, setShowAutoplayPrompt] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [showSaveDialog, setShowSaveDialog] = useState(false)
 
   const { activeLayers, isPlaying, masterVolume, addLayer, removeLayer, updateLayer, setIsPlaying, setMasterVolume } = useAudioStore()
+  const { addMix, updateMix, getMixById } = useMixStore()
+
+  // Load mix from query params (if coming from library)
+  useEffect(() => {
+    const mixId = searchParams.get('mixId')
+    if (mixId) {
+      const mix = getMixById(mixId)
+      if (mix) {
+        // Load the mix layers
+        mix.layers.forEach(async (layer) => {
+          await handleVolumeChange(layer.soundId, layer.volume / 100)
+        })
+      }
+    }
+  }, [searchParams])
 
   // Subscribe to audio controller events
   useEffect(() => {
@@ -151,6 +173,63 @@ export default function MixerPage() {
     }
   }
 
+  const handleSaveMix = (name: string, tags: string[]) => {
+    if (activeLayers.length === 0) {
+      setErrorMessage('Add at least one sound to save a mix')
+      setTimeout(() => setErrorMessage(null), 3000)
+      return
+    }
+
+    try {
+      // Generate unique ID
+      const id = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`
+      const now = new Date().toISOString()
+
+      // Create mix object
+      const mix: Mix = {
+        id,
+        name,
+        layers: activeLayers.map((layer) => ({
+          soundId: layer.soundId,
+          soundName: layer.soundName,
+          category: layer.category,
+          volume: Math.round(layer.volume * 100),
+          enabled: layer.enabled
+        })),
+        createdAt: now,
+        updatedAt: now,
+        tags
+      }
+
+      // Save to store (will auto-persist to localStorage)
+      addMix(mix)
+
+      // Close dialog
+      setShowSaveDialog(false)
+
+      // Show success message
+      setErrorMessage(`Mix "${name}" saved successfully!`)
+      setTimeout(() => setErrorMessage(null), 3000)
+    } catch (error: any) {
+      // Handle localStorage quota error
+      if (error.name === 'QuotaExceededError') {
+        setErrorMessage('Storage quota exceeded. Please delete some old mixes.')
+      } else {
+        setErrorMessage('Failed to save mix. Please try again.')
+      }
+      setTimeout(() => setErrorMessage(null), 5000)
+    }
+  }
+
+  const handleOpenSaveDialog = () => {
+    if (activeLayers.length === 0) {
+      setErrorMessage('Add at least one sound to save a mix')
+      setTimeout(() => setErrorMessage(null), 3000)
+      return
+    }
+    setShowSaveDialog(true)
+  }
+
   const filteredSounds = SOUND_CATALOG.filter((sound) =>
     sound.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     sound.category.toLowerCase().includes(searchQuery.toLowerCase())
@@ -240,8 +319,29 @@ export default function MixerPage() {
         masterVolume={masterVolume}
         onPlayPause={handlePlayPause}
         onMasterVolumeChange={handleMasterVolumeChange}
+        onSaveMix={handleOpenSaveDialog}
         disabled={!activeLayers.some((layer) => layer.volume > 0)}
       />
+
+      {/* Save Mix Dialog */}
+      <SaveMixDialog
+        isOpen={showSaveDialog}
+        onClose={() => setShowSaveDialog(false)}
+        onSave={handleSaveMix}
+        defaultName={`Mix ${new Date().toLocaleDateString()}`}
+      />
     </div>
+  )
+}
+
+export default function MixerPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-text-secondary">Loading mixer...</div>
+      </div>
+    }>
+      <MixerContent />
+    </Suspense>
   )
 }

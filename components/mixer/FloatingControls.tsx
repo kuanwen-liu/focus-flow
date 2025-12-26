@@ -8,6 +8,7 @@ interface FloatingControlsProps {
   masterVolume: number
   onPlayPause: () => void
   onMasterVolumeChange: (volume: number) => void
+  onSaveMix?: () => void
   disabled?: boolean
 }
 
@@ -16,6 +17,7 @@ export const FloatingControls: FC<FloatingControlsProps> = ({
   masterVolume,
   onPlayPause,
   onMasterVolumeChange,
+  onSaveMix,
   disabled = false,
 }) => {
   const [localVolume, setLocalVolume] = useState(masterVolume)
@@ -88,9 +90,22 @@ export const FloatingControls: FC<FloatingControlsProps> = ({
           </div>
         </div>
 
-        {/* Timer Button (future feature) */}
+        {/* Action Buttons */}
         <div className="flex items-center gap-2">
-          <button className="size-10 rounded-full hover:bg-gray-100 dark:hover:bg-border text-gray-500 dark:text-gray-400 flex items-center justify-center transition-colors">
+          {onSaveMix && (
+            <button
+              onClick={onSaveMix}
+              disabled={disabled}
+              className="size-10 rounded-full hover:bg-primary/10 text-primary disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center transition-colors"
+              title="Save Mix"
+            >
+              <span className="material-symbols-outlined">save</span>
+            </button>
+          )}
+          <button
+            className="size-10 rounded-full hover:bg-gray-100 dark:hover:bg-border text-gray-500 dark:text-gray-400 flex items-center justify-center transition-colors"
+            title="Timer (Coming Soon)"
+          >
             <span className="material-symbols-outlined">timer</span>
           </button>
         </div>
