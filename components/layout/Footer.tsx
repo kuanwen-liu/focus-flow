@@ -1,35 +1,25 @@
 export const Footer = () => {
-  const currentYear = new Date().getFullYear()
-
   return (
-    <footer className="border-t border-border mt-auto">
-      <div className="container mx-auto px-4 py-6">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-text-muted">
-            &copy; {currentYear} Focus Flow. All rights reserved.
-          </p>
-
-          <div className="flex items-center gap-6">
-            <a
-              href="#"
-              className="text-sm text-text-secondary hover:text-primary transition-colors"
-            >
-              About
-            </a>
-            <a
-              href="#"
-              className="text-sm text-text-secondary hover:text-primary transition-colors"
-            >
-              Privacy
-            </a>
-            <a
-              href="#"
-              className="text-sm text-text-secondary hover:text-primary transition-colors"
-            >
-              Terms
-            </a>
-          </div>
+    <footer className="w-full py-10 px-6 border-t border-gray-200 dark:border-[#283539] bg-background-light dark:bg-background">
+      <div className="layout-container flex flex-col md:flex-row justify-between items-center max-w-[1280px] mx-auto gap-6">
+        <div className="flex items-center gap-2 text-gray-900 dark:text-white">
+          <span className="material-symbols-outlined text-[20px]">graphic_eq</span>
+          <span className="font-bold">Focus Mixer</span>
         </div>
+        <div className="flex gap-8 text-sm text-gray-500 dark:text-[#9db2b9]">
+          <a className="hover:text-primary transition-colors" href="#">
+            About
+          </a>
+          <a className="hover:text-primary transition-colors" href="#">
+            Sounds
+          </a>
+          <a className="hover:text-primary transition-colors" href="#">
+            Privacy
+          </a>
+        </div>
+        <p className="text-sm text-gray-400 dark:text-[#5e767e]">
+          © {new Date().getFullYear()} Focus Mixer
+        </p>
       </div>
     </footer>
   )
