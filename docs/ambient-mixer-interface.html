@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FocusFlow - Ambient Mixer</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13b6ec",
+                        "background-light": "#f6f8f8",
+                        "background-dark": "#101d22",
+                        "card-dark": "#1c292f",
+                        "card-light": "#ffffff",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #283539; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3b4d54; 
+        }
+        .slider-thumb-glow {
+            box-shadow: 0 0 10px 2px rgba(19, 182, 236, 0.3);
+        }
+        details summary::-webkit-details-marker {
+            display:none;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-[#111618] dark:text-white overflow-x-hidden min-h-screen flex flex-col">
+<header class="sticky top-0 z-40 w-full border-b border-solid border-[#e5e7eb] dark:border-[#283539] bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md">
+<div class="px-4 md:px-10 py-3 flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="size-8 text-primary">
+<span class="material-symbols-outlined !text-[32px]">graphic_eq</span>
+</div>
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">FocusFlow</h2>
+</div>
+<div class="flex items-center gap-4 md:gap-8">
+<div class="hidden md:flex items-center gap-6">
+<a class="text-sm font-medium leading-normal opacity-70 hover:opacity-100 transition-opacity" href="#">My Library</a>
+<a class="text-sm font-medium leading-normal opacity-70 hover:opacity-100 transition-opacity" href="#">Discover</a>
+</div>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-9 px-4 bg-primary text-white dark:text-[#111618] text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors">
+<span class="truncate">Save Mix</span>
+</button>
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-9 border-2 border-[#e5e7eb] dark:border-[#283539]" data-alt="User profile avatar gradient" style="background-image: linear-gradient(135deg, #FF9D6C 0%, #BB4E75 100%);"></div>
+</div>
+</div>
+</header>
+<main class="flex-1 w-full max-w-[1200px] mx-auto px-4 md:px-10 py-8 pb-32">
+<div class="flex flex-col gap-4 mb-10">
+<div class="flex items-center justify-between">
+<h2 class="text-[28px] font-bold leading-tight tracking-tight">Focus Modes</h2>
+<a class="text-sm text-primary font-medium hover:underline" href="#">View all</a>
+</div>
+<div class="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+<button class="group flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-full bg-primary pl-3 pr-5 transition-all">
+<span class="material-symbols-outlined text-white dark:text-[#111618] !text-[20px]">psychology</span>
+<p class="text-white dark:text-[#111618] text-sm font-bold leading-normal">Deep Work</p>
+</button>
+<button class="group flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-full bg-white dark:bg-[#283539] hover:bg-gray-100 dark:hover:bg-[#324247] pl-3 pr-5 border border-transparent dark:border-transparent transition-all">
+<span class="material-symbols-outlined text-gray-500 dark:text-gray-400 group-hover:text-primary !text-[20px]">menu_book</span>
+<p class="text-gray-700 dark:text-gray-200 text-sm font-medium leading-normal">Reading</p>
+</button>
+<button class="group flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-full bg-white dark:bg-[#283539] hover:bg-gray-100 dark:hover:bg-[#324247] pl-3 pr-5 border border-transparent dark:border-transparent transition-all">
+<span class="material-symbols-outlined text-gray-500 dark:text-gray-400 group-hover:text-primary !text-[20px]">self_improvement</span>
+<p class="text-gray-700 dark:text-gray-200 text-sm font-medium leading-normal">Meditation</p>
+</button>
+<button class="group flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-full bg-white dark:bg-[#283539] hover:bg-gray-100 dark:hover:bg-[#324247] pl-3 pr-5 border border-transparent dark:border-transparent transition-all">
+<span class="material-symbols-outlined text-gray-500 dark:text-gray-400 group-hover:text-primary !text-[20px]">bedtime</span>
+<p class="text-gray-700 dark:text-gray-200 text-sm font-medium leading-normal">Nap</p>
+</button>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
+<h3 class="text-xl font-bold">Sound Layers</h3>
+<div class="flex items-center gap-3 w-full sm:w-auto">
+<div class="relative w-full sm:w-64 group">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-gray-400 !text-[20px] group-focus-within:text-primary transition-colors">search</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-2 border border-gray-200 dark:border-[#283539] rounded-lg leading-5 bg-white dark:bg-[#1c292f] text-gray-900 dark:text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary sm:text-sm transition-all shadow-sm" placeholder="Find new sounds..." type="text"/>
+</div>
+<button class="hidden sm:flex items-center justify-center size-10 shrink-0 rounded-lg border border-gray-200 dark:border-[#283539] bg-white dark:bg-[#1c292f] text-gray-500 hover:text-primary hover:border-primary/50 transition-colors" title="Filter Categories">
+<span class="material-symbols-outlined !text-[20px]">tune</span>
+</button>
+</div>
+</div>
+<div class="space-y-8">
+<details class="group/category" open="">
+<summary class="flex items-center gap-3 cursor-pointer mb-4 select-none outline-none">
+<span class="material-symbols-outlined text-gray-400 group-open/category:rotate-90 transition-transform duration-200">chevron_right</span>
+<div class="flex items-center gap-2">
+<h4 class="text-base font-bold text-gray-600 dark:text-gray-300">Nature Sounds</h4>
+<div class="px-2 py-0.5 rounded-full bg-gray-100 dark:bg-[#283539] text-xs font-medium text-gray-500">3 active</div>
+</div>
+<div class="flex-1 h-px bg-gray-200 dark:bg-[#283539] ml-2"></div>
+</summary>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 pl-2 sm:pl-8">
+<div class="bg-card-light dark:bg-card-dark p-5 rounded-xl shadow-sm border border-gray-100 dark:border-[#283539] group hover:border-primary/50 transition-colors relative overflow-hidden">
+<div class="flex items-start justify-between mb-8">
+<div class="flex items-center gap-4">
+<div class="size-12 rounded-lg bg-blue-500/10 dark:bg-blue-500/20 flex items-center justify-center text-blue-600 dark:text-blue-400">
+<span class="material-symbols-outlined !text-[28px]">rainy</span>
+</div>
+<div>
+<h4 class="font-bold text-lg">Heavy Rain</h4>
+<p class="text-xs text-gray-500 dark:text-gray-400">Nature</p>
+</div>
+</div>
+<button class="text-gray-400 hover:text-white transition-colors">
+<span class="material-symbols-outlined !text-[20px]">volume_up</span>
+</button>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex justify-between text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+<span>Volume</span>
+<span>60%</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-gray-400 dark:text-gray-500 !text-[20px]">rainy</span>
+<div class="relative h-8 flex items-center flex-1 cursor-pointer group/slider">
+<div class="h-1.5 flex-1 rounded-full bg-gray-200 dark:bg-[#3b4d54] overflow-hidden">
+<div class="h-full w-[60%] rounded-full bg-primary"></div>
+</div>
+<div class="absolute left-[60%] -translate-x-1/2 size-5 rounded-full bg-white shadow-md slider-thumb-glow border border-gray-100 flex items-center justify-center transform transition-transform group-hover/slider:scale-110">
+<div class="size-1.5 rounded-full bg-primary"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="absolute -right-10 -bottom-10 size-32 bg-primary/5 rounded-full blur-2xl pointer-events-none"></div>
+</div>
+<div class="bg-card-light dark:bg-card-dark p-5 rounded-xl shadow-sm border border-gray-100 dark:border-[#283539] opacity-70 hover:opacity-100 transition-opacity relative overflow-hidden">
+<div class="flex items-start justify-between mb-8">
+<div class="flex items-center gap-4">
+<div class="size-12 rounded-lg bg-green-500/10 dark:bg-green-500/20 flex items-center justify-center text-green-600 dark:text-green-400">
+<span class="material-symbols-outlined !text-[28px]">flutter_dash</span>
+</div>
+<div>
+<h4 class="font-bold text-lg">Forest Birds</h4>
+<p class="text-xs text-gray-500 dark:text-gray-400">Nature</p>
+</div>
+</div>
+<button class="text-gray-500 hover:text-white transition-colors">
+<span class="material-symbols-outlined !text-[20px]">volume_off</span>
+</button>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex justify-between text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+<span>Volume</span>
+<span>0%</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-gray-400 dark:text-gray-500 !text-[20px]">flutter_dash</span>
+<div class="relative h-8 flex items-center flex-1 cursor-pointer group/slider">
+<div class="h-1.5 flex-1 rounded-full bg-gray-200 dark:bg-[#3b4d54] overflow-hidden">
+<div class="h-full w-[0%] rounded-full bg-green-500"></div>
+</div>
+<div class="absolute left-[0%] -translate-x-1/2 size-5 rounded-full bg-white shadow-md border border-gray-100 flex items-center justify-center transform transition-transform group-hover/slider:scale-110">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-card-light dark:bg-card-dark p-5 rounded-xl shadow-sm border border-gray-100 dark:border-[#283539] group hover:border-primary/50 transition-colors relative overflow-hidden">
+<div class="flex items-start justify-between mb-8">
+<div class="flex items-center gap-4">
+<div class="size-12 rounded-lg bg-cyan-500/10 dark:bg-cyan-500/20 flex items-center justify-center text-cyan-600 dark:text-cyan-400">
+<span class="material-symbols-outlined !text-[28px]">air</span>
+</div>
+<div>
+<h4 class="font-bold text-lg">Ocean Wind</h4>
+<p class="text-xs text-gray-500 dark:text-gray-400">Nature</p>
+</div>
+</div>
+<button class="text-gray-400 hover:text-white transition-colors">
+<span class="material-symbols-outlined !text-[20px]">volume_up</span>
+</button>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex justify-between text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+<span>Volume</span>
+<span>30%</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-gray-400 dark:text-gray-500 !text-[20px]">air</span>
+<div class="relative h-8 flex items-center flex-1 cursor-pointer group/slider">
+<div class="h-1.5 flex-1 rounded-full bg-gray-200 dark:bg-[#3b4d54] overflow-hidden">
+<div class="h-full w-[30%] rounded-full bg-cyan-500"></div>
+</div>
+<div class="absolute left-[30%] -translate-x-1/2 size-5 rounded-full bg-white shadow-md slider-thumb-glow border border-gray-100 flex items-center justify-center transform transition-transform group-hover/slider:scale-110">
+<div class="size-1.5 rounded-full bg-cyan-500"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</details>
+<details class="group/category" open="">
+<summary class="flex items-center gap-3 cursor-pointer mb-4 select-none outline-none">
+<span class="material-symbols-outlined text-gray-400 group-open/category:rotate-90 transition-transform duration-200">chevron_right</span>
+<div class="flex items-center gap-2">
+<h4 class="text-base font-bold text-gray-600 dark:text-gray-300">City &amp; Ambience</h4>
+<div class="px-2 py-0.5 rounded-full bg-gray-100 dark:bg-[#283539] text-xs font-medium text-gray-500">2 active</div>
+</div>
+<div class="flex-1 h-px bg-gray-200 dark:bg-[#283539] ml-2"></div>
+</summary>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 pl-2 sm:pl-8">
+<div class="bg-card-light dark:bg-card-dark p-5 rounded-xl shadow-sm border border-gray-100 dark:border-[#283539] group hover:border-primary/50 transition-colors relative overflow-hidden">
+<div class="flex items-start justify-between mb-8">
+<div class="flex items-center gap-4">
+<div class="size-12 rounded-lg bg-amber-500/10 dark:bg-amber-500/20 flex items-center justify-center text-amber-600 dark:text-amber-400">
+<span class="material-symbols-outlined !text-[28px]">local_cafe</span>
+</div>
+<div>
+<h4 class="font-bold text-lg">Coffee Shop</h4>
+<p class="text-xs text-gray-500 dark:text-gray-400">Ambience</p>
+</div>
+</div>
+<button class="text-gray-400 hover:text-white transition-colors">
+<span class="material-symbols-outlined !text-[20px]">volume_up</span>
+</button>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex justify-between text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+<span>Volume</span>
+<span>20%</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-gray-400 dark:text-gray-500 !text-[20px]">local_cafe</span>
+<div class="relative h-8 flex items-center flex-1 cursor-pointer group/slider">
+<div class="h-1.5 flex-1 rounded-full bg-gray-200 dark:bg-[#3b4d54] overflow-hidden">
+<div class="h-full w-[20%] rounded-full bg-amber-500"></div>
+</div>
+<div class="absolute left-[20%] -translate-x-1/2 size-5 rounded-full bg-white shadow-md slider-thumb-glow border border-gray-100 flex items-center justify-center transform transition-transform group-hover/slider:scale-110">
+<div class="size-1.5 rounded-full bg-amber-500"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-card-light dark:bg-card-dark p-5 rounded-xl shadow-sm border border-gray-100 dark:border-[#283539] opacity-70 hover:opacity-100 transition-opacity relative overflow-hidden">
+<div class="flex items-start justify-between mb-8">
+<div class="flex items-center gap-4">
+<div class="size-12 rounded-lg bg-orange-500/10 dark:bg-orange-500/20 flex items-center justify-center text-orange-600 dark:text-orange-400">
+<span class="material-symbols-outlined !text-[28px]">fireplace</span>
+</div>
+<div>
+<h4 class="font-bold text-lg">Crackling Fire</h4>
+<p class="text-xs text-gray-500 dark:text-gray-400">Cozy</p>
+</div>
+</div>
+<button class="text-gray-500 hover:text-white transition-colors">
+<span class="material-symbols-outlined !text-[20px]">volume_off</span>
+</button>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex justify-between text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+<span>Volume</span>
+<span>0%</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-gray-400 dark:text-gray-500 !text-[20px]">fireplace</span>
+<div class="relative h-8 flex items-center flex-1 cursor-pointer group/slider">
+<div class="h-1.5 flex-1 rounded-full bg-gray-200 dark:bg-[#3b4d54] overflow-hidden">
+<div class="h-full w-[0%] rounded-full bg-orange-500"></div>
+</div>
+<div class="absolute left-[0%] -translate-x-1/2 size-5 rounded-full bg-white shadow-md border border-gray-100 flex items-center justify-center transform transition-transform group-hover/slider:scale-110">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-card-light/50 dark:bg-card-dark/50 p-5 rounded-xl border-2 border-dashed border-gray-200 dark:border-[#283539] hover:border-primary/50 hover:bg-white dark:hover:bg-[#1c292f] transition-all relative group cursor-pointer flex flex-col items-center justify-center text-center h-full min-h-[160px]">
+<div class="size-12 rounded-full bg-primary/10 dark:bg-primary/20 flex items-center justify-center text-primary mb-3 group-hover:scale-110 transition-transform duration-300">
+<span class="material-symbols-outlined !text-[28px]">add_location</span>
+</div>
+<h4 class="font-bold text-lg text-gray-700 dark:text-gray-200">More Places</h4>
+<p class="text-xs text-gray-500 dark:text-gray-400 mt-1 max-w-[200px]">Find more city sounds</p>
+</div>
+</div>
+</details>
+<details class="group/category" open="">
+<summary class="flex items-center gap-3 cursor-pointer mb-4 select-none outline-none">
+<span class="material-symbols-outlined text-gray-400 group-open/category:rotate-90 transition-transform duration-200">chevron_right</span>
+<div class="flex items-center gap-2">
+<h4 class="text-base font-bold text-gray-600 dark:text-gray-300">White Noise &amp; Focus</h4>
+<div class="px-2 py-0.5 rounded-full bg-gray-100 dark:bg-[#283539] text-xs font-medium text-gray-500">1 active</div>
+</div>
+<div class="flex-1 h-px bg-gray-200 dark:bg-[#283539] ml-2"></div>
+</summary>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 pl-2 sm:pl-8">
+<div class="bg-card-light dark:bg-card-dark p-5 rounded-xl shadow-sm border border-gray-100 dark:border-[#283539] group hover:border-primary/50 transition-colors relative overflow-hidden">
+<div class="flex items-start justify-between mb-8">
+<div class="flex items-center gap-4">
+<div class="size-12 rounded-lg bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300">
+<span class="material-symbols-outlined !text-[28px]">waves</span>
+</div>
+<div>
+<h4 class="font-bold text-lg">White Noise</h4>
+<p class="text-xs text-gray-500 dark:text-gray-400">Focus</p>
+</div>
+</div>
+<button class="text-gray-400 hover:text-white transition-colors">
+<span class="material-symbols-outlined !text-[20px]">volume_up</span>
+</button>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex justify-between text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+<span>Volume</span>
+<span>40%</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-gray-400 dark:text-gray-500 !text-[20px]">waves</span>
+<div class="relative h-8 flex items-center flex-1 cursor-pointer group/slider">
+<div class="h-1.5 flex-1 rounded-full bg-gray-200 dark:bg-[#3b4d54] overflow-hidden">
+<div class="h-full w-[40%] rounded-full bg-gray-400"></div>
+</div>
+<div class="absolute left-[40%] -translate-x-1/2 size-5 rounded-full bg-white shadow-md slider-thumb-glow border border-gray-100 flex items-center justify-center transform transition-transform group-hover/slider:scale-110">
+<div class="size-1.5 rounded-full bg-gray-400"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-card-light/50 dark:bg-card-dark/50 p-5 rounded-xl border-2 border-dashed border-gray-200 dark:border-[#283539] hover:border-primary/50 hover:bg-white dark:hover:bg-[#1c292f] transition-all relative group cursor-pointer flex flex-col items-center justify-center text-center h-full min-h-[160px]">
+<div class="size-12 rounded-full bg-primary/10 dark:bg-primary/20 flex items-center justify-center text-primary mb-3 group-hover:scale-110 transition-transform duration-300">
+<span class="material-symbols-outlined !text-[28px]">library_add</span>
+</div>
+<h4 class="font-bold text-lg text-gray-700 dark:text-gray-200">Discover Sounds</h4>
+<p class="text-xs text-gray-500 dark:text-gray-400 mt-1 max-w-[200px]">Browse the full catalog of ambient layers</p>
+</div>
+</div>
+</details>
+</div>
+</main>
+<div class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-[500px]">
+<div class="bg-card-light/90 dark:bg-[#1c292f]/90 backdrop-blur-xl border border-gray-200 dark:border-[#3b4d54] p-4 rounded-2xl shadow-2xl flex items-center justify-between gap-6">
+<button class="size-12 shrink-0 rounded-full bg-primary hover:bg-primary/90 text-[#111618] flex items-center justify-center transition-transform hover:scale-105 shadow-[0_0_20px_rgba(19,182,236,0.4)]">
+<span class="material-symbols-outlined !text-[32px] ml-1">play_arrow</span>
+</button>
+<div class="flex-1 flex flex-col justify-center gap-1.5">
+<div class="flex items-center justify-between text-xs font-bold uppercase text-gray-400 tracking-wider">
+<span>Master Volume</span>
+<span>80%</span>
+</div>
+<div class="relative h-6 flex items-center w-full cursor-pointer group/master">
+<div class="h-2 w-full rounded-full bg-gray-200 dark:bg-[#111618] overflow-hidden">
+<div class="h-full w-[80%] rounded-full bg-white"></div>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="size-10 rounded-full hover:bg-gray-100 dark:hover:bg-[#283539] text-gray-500 dark:text-gray-400 flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined">timer</span>
+</button>
+</div>
+</div>
+</div>
+</body></html>
