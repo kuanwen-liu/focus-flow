@@ -24,18 +24,18 @@
 
 **Purpose**: Project initialization and basic structure
 
-- [ ] T001 Initialize Next.js 16.1.1 project with TypeScript and App Router in repository root
-- [ ] T002 [P] Install core dependencies: next@16.1.1, react@19, typescript@5.3+, tailwind@3.4+, framer-motion@11, zustand@4
-- [ ] T003 [P] Install dev dependencies: vitest, @testing-library/react, playwright, eslint, prettier
-- [ ] T004 Configure Tailwind CSS in tailwind.config.ts with custom color extensions
-- [ ] T005 Create app/globals.css with CSS variables for theme colors per constitution
-- [ ] T006 [P] Configure TypeScript in tsconfig.json with strict mode and path aliases
-- [ ] T007 [P] Create .env.local for environment configuration (currently empty, for future use)
-- [ ] T008 Create public/sounds symlink or copy pointing to /sounds folder
-- [ ] T009 Verify all 10 sound categories accessible in public/sounds with main/glue pattern
-- [ ] T010 Create Next.js root layout in app/layout.tsx with ThemeProvider wrapper
-- [ ] T011 [P] Configure ESLint in .eslintrc.json with Next.js and TypeScript rules
-- [ ] T012 [P] Configure Prettier in .prettierrc for code formatting
+- [X] T001 Initialize Next.js 16.1.1 project with TypeScript and App Router in repository root
+- [X] T002 [P] Install core dependencies: next@16.1.1, react@19, typescript@5.3+, tailwind@3.4+, framer-motion@11, zustand@4
+- [X] T003 [P] Install dev dependencies: vitest, @testing-library/react, playwright, eslint, prettier
+- [X] T004 Configure Tailwind CSS in tailwind.config.ts with custom color extensions
+- [X] T005 Create app/globals.css with CSS variables for theme colors per constitution
+- [X] T006 [P] Configure TypeScript in tsconfig.json with strict mode and path aliases
+- [X] T007 [P] Create .env.local for environment configuration (currently empty, for future use)
+- [X] T008 Create public/sounds symlink or copy pointing to /sounds folder
+- [X] T009 Verify all 10 sound categories accessible in public/sounds with main/glue pattern
+- [X] T010 Create Next.js root layout in app/layout.tsx with ThemeProvider wrapper
+- [X] T011 [P] Configure ESLint in .eslintrc.json with Next.js and TypeScript rules
+- [X] T012 [P] Configure Prettier in .prettierrc for code formatting
 
 ---
 
