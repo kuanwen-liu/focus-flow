@@ -20,7 +20,7 @@ interface AudioStore {
 
 export const useAudioStore = create<AudioStore>((set) => ({
   isPlaying: false,
-  masterVolume: 0.8,
+  masterVolume: 60,
   activeLayers: [],
   loadingStates: {},
 
@@ -29,7 +29,7 @@ export const useAudioStore = create<AudioStore>((set) => ({
   },
 
   setMasterVolume: (volume: number) => {
-    set({ masterVolume: Math.max(0, Math.min(1, volume)) })
+    set({ masterVolume: Math.max(0, Math.min(100, volume)) })
   },
 
   addLayer: (layer: SoundLayer) => {

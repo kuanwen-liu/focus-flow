@@ -1,6 +1,6 @@
 'use client'
 
-import { FC } from 'react'
+import { FC, useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 
 interface FloatingControlsProps {
@@ -18,6 +18,23 @@ export const FloatingControls: FC<FloatingControlsProps> = ({
   onMasterVolumeChange,
   disabled = false,
 }) => {
+  const [localVolume, setLocalVolume] = useState(masterVolume)
+
+  // Sync local volume when prop changes
+  useEffect(() => {
+    setLocalVolume(masterVolume)
+  }, [masterVolume])
+
+  const handleVolumeInput = (newVolume: number) => {
+    setLocalVolume(newVolume)
+  }
+
+  const handleVolumeCommit = () => {
+    if (localVolume !== masterVolume) {
+      onMasterVolumeChange(localVolume)
+    }
+  }
+
   return (
     <motion.div
       initial={{ y: 100, opacity: 0 }}
@@ -42,21 +59,30 @@ export const FloatingControls: FC<FloatingControlsProps> = ({
         <div className="flex-1 flex flex-col justify-center gap-1.5">
           <div className="flex items-center justify-between text-xs font-bold uppercase text-gray-400 tracking-wider">
             <span>Master Volume</span>
-            <span>{Math.round(masterVolume)}%</span>
+            <span>{Math.round(localVolume)}%</span>
           </div>
           <div className="relative h-6 flex items-center w-full cursor-pointer group/master">
             <input
               type="range"
               min="0"
               max="100"
-              value={masterVolume}
-              onChange={(e) => onMasterVolumeChange(parseInt(e.target.value))}
+              value={localVolume}
+              onInput={(e) => handleVolumeInput(parseInt(e.currentTarget.value))}
+              onMouseUp={handleVolumeCommit}
+              onTouchEnd={handleVolumeCommit}
               className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+              style={{
+                WebkitAppearance: 'none',
+                appearance: 'none',
+                background: 'transparent',
+                margin: 0,
+                padding: 0,
+              }}
             />
             <div className="h-2 w-full rounded-full bg-gray-200 dark:bg-background overflow-hidden pointer-events-none">
               <div
                 className="h-full bg-white transition-all duration-150"
-                style={{ width: `${masterVolume}%` }}
+                style={{ width: `${localVolume}%` }}
               />
             </div>
           </div>

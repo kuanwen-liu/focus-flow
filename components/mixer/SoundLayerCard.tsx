@@ -1,6 +1,6 @@
 'use client'
 
-import { FC } from 'react'
+import { FC, useState, useEffect } from 'react'
 import { SoundDefinition } from '@/types/sound'
 
 interface SoundLayerCardProps {
@@ -81,7 +81,23 @@ export const SoundLayerCard: FC<SoundLayerCardProps> = ({
   onToggleMute,
 }) => {
   const colors = getColorClasses(sound.color)
-  const volumePercent = Math.round(volume * 100)
+  const [localVolume, setLocalVolume] = useState(volume)
+  const volumePercent = Math.round(localVolume * 100)
+
+  // Sync local volume when prop changes (e.g., from preset load)
+  useEffect(() => {
+    setLocalVolume(volume)
+  }, [volume])
+
+  const handleVolumeInput = (newVolume: number) => {
+    setLocalVolume(newVolume)
+  }
+
+  const handleVolumeCommit = () => {
+    if (localVolume !== volume) {
+      onVolumeChange(localVolume)
+    }
+  }
 
   return (
     <div
@@ -123,14 +139,6 @@ export const SoundLayerCard: FC<SoundLayerCardProps> = ({
             {sound.icon}
           </span>
           <div className="relative h-8 flex items-center flex-1 cursor-pointer group/slider">
-            <input
-              type="range"
-              min="0"
-              max="100"
-              value={volumePercent}
-              onChange={(e) => onVolumeChange(parseInt(e.target.value) / 100)}
-              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-            />
             <div className="h-1.5 flex-1 rounded-full bg-gray-200 dark:bg-border-light overflow-hidden pointer-events-none">
               <div
                 className={`h-full ${colors.slider} transition-all duration-150`}
@@ -145,6 +153,23 @@ export const SoundLayerCard: FC<SoundLayerCardProps> = ({
             >
               {isActive && <div className={`size-1.5 rounded-full ${colors.slider}`} />}
             </div>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value={volumePercent}
+              onInput={(e) => handleVolumeInput(parseInt(e.currentTarget.value) / 100)}
+              onMouseUp={handleVolumeCommit}
+              onTouchEnd={handleVolumeCommit}
+              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+              style={{
+                WebkitAppearance: 'none',
+                appearance: 'none',
+                background: 'transparent',
+                margin: 0,
+                padding: 0,
+              }}
+            />
           </div>
         </div>
       </div>
