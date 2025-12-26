@@ -7,46 +7,49 @@ import { ROUTES } from '@/lib/constants/routes'
 export const Header = () => {
   const pathname = usePathname()
 
-  const navItems = [
-    { label: 'Home', href: ROUTES.HOME },
-    { label: 'Mixer', href: ROUTES.MIXER },
-    { label: 'My Mixes', href: ROUTES.LIBRARY },
-  ]
-
   const isActive = (href: string) => pathname === href
 
   return (
-    <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
-      <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-        <Link href={ROUTES.HOME} className="flex items-center gap-2">
-          <span className="material-symbols-outlined text-primary text-3xl">
-            graphic_eq
-          </span>
-          <span className="text-xl font-bold">Focus Flow</span>
+    <header className="sticky top-0 z-40 w-full border-b border-solid border-gray-200 dark:border-border bg-background/80 backdrop-blur-md">
+      <div className="px-4 md:px-10 py-3 flex items-center justify-between">
+        {/* Logo */}
+        <Link href={ROUTES.HOME} className="flex items-center gap-4">
+          <div className="size-8 text-primary">
+            <span className="material-symbols-outlined !text-[32px]">graphic_eq</span>
+          </div>
+          <h2 className="text-lg font-bold leading-tight tracking-[-0.015em] text-text-primary">
+            FocusFlow
+          </h2>
         </Link>
 
-        <nav className="flex items-center gap-6">
-          {navItems.map((item) => (
+        {/* Right Section */}
+        <div className="flex items-center gap-4 md:gap-8">
+          {/* Navigation - Hidden on mobile */}
+          <div className="hidden md:flex items-center gap-6">
             <Link
-              key={item.href}
-              href={item.href}
-              className={`
-                text-sm font-medium transition-colors
-                ${
-                  isActive(item.href)
-                    ? 'text-primary'
-                    : 'text-text-secondary hover:text-primary'
-                }
-              `}
+              href={ROUTES.LIBRARY}
+              className="text-sm font-medium leading-normal opacity-70 hover:opacity-100 transition-opacity text-text-primary"
             >
-              {item.label}
+              My Library
             </Link>
-          ))}
-        </nav>
+            <a
+              href="#"
+              className="text-sm font-medium leading-normal opacity-70 hover:opacity-100 transition-opacity text-text-primary"
+            >
+              Discover
+            </a>
+          </div>
 
-        <div className="flex items-center gap-4">
-          {/* Future: User profile avatar */}
-          <div className="w-8 h-8 rounded-full bg-card border border-border" />
+          {/* Save Mix Button */}
+          <button className="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-9 px-4 bg-primary text-white dark:text-[#111618] text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors">
+            <span className="truncate">Save Mix</span>
+          </button>
+
+          {/* User Avatar */}
+          <div
+            className="bg-center bg-no-repeat bg-cover rounded-full size-9 border-2 border-gray-200 dark:border-border"
+            style={{ backgroundImage: 'linear-gradient(135deg, #FF9D6C 0%, #BB4E75 100%)' }}
+          />
         </div>
       </div>
     </header>

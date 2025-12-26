@@ -72,4 +72,17 @@
     direction: ltr;
     -webkit-font-smoothing: antialiased;
   }
+
+  .slider-thumb-glow {
+    box-shadow: 0 0 10px 2px rgba(19, 182, 236, 0.3);
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
 }

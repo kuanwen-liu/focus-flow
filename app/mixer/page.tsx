@@ -1,21 +1,17 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { SoundCategories } from '@/components/mixer/SoundCategories'
-import { ActiveLayers } from '@/components/mixer/ActiveLayers'
+import { FocusModePresets } from '@/components/mixer/FocusModePresets'
+import { SoundCategoriesCollapsible } from '@/components/mixer/SoundCategoriesCollapsible'
 import { FloatingControls } from '@/components/mixer/FloatingControls'
-import { Input } from '@/components/ui/Input'
-import { Button } from '@/components/ui/Button'
-import { Card } from '@/components/ui/Card'
 import { SOUND_CATALOG, FOCUS_MODE_PRESETS } from '@/lib/constants/sounds'
 import { audioController } from '@/lib/audio/AudioController'
 import { useAudioStore } from '@/lib/state/useAudioStore'
-import { SoundDefinition } from '@/types/sound'
 import { volumeToPercentage } from '@/lib/audio/MasterVolume'
 
 export default function MixerPage() {
   const [searchQuery, setSearchQuery] = useState('')
-  const [loadingStates, setLoadingStates] = useState<Record<string, boolean>>({})
+  const [activePresetId, setActivePresetId] = useState<string | null>(null)
   const [showAutoplayPrompt, setShowAutoplayPrompt] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
@@ -25,7 +21,6 @@ export default function MixerPage() {
   useEffect(() => {
     const handleLayerAdded = ({ layer }: any) => {
       addLayer(layer)
-      setLoadingStates((prev) => ({ ...prev, [layer.soundId]: false }))
     }
 
     const handleLayerRemoved = ({ layerId }: any) => {
@@ -39,11 +34,9 @@ export default function MixerPage() {
     const handleVolumeChange = ({ type, layerId, volume }: any) => {
       if (type === 'master') {
         setMasterVolume(volumeToPercentage(volume))
+      } else if (type === 'layer' && layerId) {
+        updateLayer(layerId, { volume })
       }
-    }
-
-    const handleLoadingStateChange = ({ soundId, state }: any) => {
-      setLoadingStates((prev) => ({ ...prev, [soundId]: state === 'loading' }))
     }
 
     const handleLoadError = ({ soundName, error }: any) => {
@@ -59,7 +52,6 @@ export default function MixerPage() {
     audioController.on('layerRemoved', handleLayerRemoved)
     audioController.on('playbackStateChange', handlePlaybackStateChange)
     audioController.on('volumeChange', handleVolumeChange)
-    audioController.on('loadingStateChange', handleLoadingStateChange)
     audioController.on('loadError', handleLoadError)
     audioController.on('autoplayBlocked', handleAutoplayBlocked)
 
@@ -68,37 +60,44 @@ export default function MixerPage() {
       audioController.off('layerRemoved', handleLayerRemoved)
       audioController.off('playbackStateChange', handlePlaybackStateChange)
       audioController.off('volumeChange', handleVolumeChange)
-      audioController.off('loadingStateChange', handleLoadingStateChange)
       audioController.off('loadError', handleLoadError)
       audioController.off('autoplayBlocked', handleAutoplayBlocked)
     }
-  }, [addLayer, removeLayer, setIsPlaying, setMasterVolume])
+  }, [addLayer, removeLayer, updateLayer, setIsPlaying, setMasterVolume])
 
-  const handleAddSound = async (soundId: string) => {
-    // Check layer limit
-    if (activeLayers.length >= 10) {
-      setErrorMessage('Maximum layer limit reached (10 layers)')
-      setTimeout(() => setErrorMessage(null), 3000)
-      return
-    }
+  const handleVolumeChange = async (soundId: string, volume: number) => {
+    const existingLayer = activeLayers.find((layer) => layer.soundId === soundId)
 
-    setLoadingStates((prev) => ({ ...prev, [soundId]: true }))
-
-    try {
-      await audioController.addLayer(soundId, 0.8)
-    } catch (error) {
-      console.error('Failed to add layer:', error)
-      setLoadingStates((prev) => ({ ...prev, [soundId]: false }))
+    if (volume === 0 && existingLayer) {
+      // Remove layer when volume is set to 0
+      audioController.removeLayer(existingLayer.id)
+      removeLayer(existingLayer.id)
+    } else if (volume > 0 && !existingLayer) {
+      // Add layer if it doesn't exist
+      try {
+        await audioController.addLayer(soundId, volume)
+      } catch (error) {
+        console.error('Failed to add layer:', error)
+        setErrorMessage(`Failed to load sound`)
+        setTimeout(() => setErrorMessage(null), 3000)
+      }
+    } else if (existingLayer) {
+      // Update existing layer volume
+      audioController.setLayerVolume(existingLayer.id, volume)
+      updateLayer(existingLayer.id, { volume })
     }
   }
 
-  const handleRemoveSound = (layerId: string) => {
-    audioController.removeLayer(layerId)
-  }
+  const handleToggleMute = (soundId: string) => {
+    const existingLayer = activeLayers.find((layer) => layer.soundId === soundId)
 
-  const handleLayerVolumeChange = (layerId: string, volume: number) => {
-    audioController.setLayerVolume(layerId, volume)
-    updateLayer(layerId, { volume })
+    if (existingLayer) {
+      // Mute by setting volume to 0
+      handleVolumeChange(soundId, 0)
+    } else {
+      // Unmute by setting volume to 0.6 (default)
+      handleVolumeChange(soundId, 0.6)
+    }
   }
 
   const handleMasterVolumeChange = (percentage: number) => {
@@ -108,7 +107,9 @@ export default function MixerPage() {
   }
 
   const handlePlayPause = async () => {
-    if (activeLayers.length === 0) {
+    const hasActiveSounds = activeLayers.some((layer) => layer.volume > 0)
+
+    if (!hasActiveSounds) {
       setErrorMessage('Add at least one sound to start playing')
       setTimeout(() => setErrorMessage(null), 3000)
       return
@@ -126,23 +127,27 @@ export default function MixerPage() {
     }
   }
 
-  const handleLoadPreset = async (presetId: string) => {
+  const handleSelectPreset = async (presetId: string) => {
     const preset = FOCUS_MODE_PRESETS.find((p) => p.id === presetId)
     if (!preset) return
 
-    // Clear existing layers
-    audioController.clearAll()
+    setActivePresetId(presetId)
+
+    // Clear all existing layers
+    activeLayers.forEach((layer) => {
+      audioController.removeLayer(layer.id)
+    })
 
     // Add preset layers
-    for (const layer of preset.soundLayers) {
-      await handleAddSound(layer.soundId)
-      // Set volume after layer is added
+    for (const presetLayer of preset.soundLayers) {
+      await handleVolumeChange(presetLayer.soundId, presetLayer.volume / 100)
+    }
+
+    // Auto-play if not already playing
+    if (!isPlaying && preset.soundLayers.length > 0) {
       setTimeout(() => {
-        const addedLayer = activeLayers.find((l) => l.soundId === layer.soundId)
-        if (addedLayer) {
-          handleLayerVolumeChange(addedLayer.id, layer.volume / 100)
-        }
-      }, 100)
+        handlePlayPause()
+      }, 500)
     }
   }
 
@@ -151,102 +156,83 @@ export default function MixerPage() {
     sound.category.toLowerCase().includes(searchQuery.toLowerCase())
   )
 
-  const disabledSounds = activeLayers.map((layer) => layer.soundId)
-
   return (
     <div className="min-h-screen bg-background pb-32">
-      <div className="container mx-auto px-4 py-8">
+      <main className="flex-1 w-full max-w-[1200px] mx-auto px-4 md:px-10 py-8 pb-32">
         {/* Error Toast */}
         {errorMessage && (
           <div className="fixed top-20 right-4 z-50 max-w-md">
-            <Card className="bg-red-500/10 border-red-500 p-4" glassmorphism={false}>
+            <div className="bg-red-500/10 border border-red-500 p-4 rounded-xl backdrop-blur-md">
               <div className="flex items-center gap-2">
                 <span className="material-symbols-outlined text-red-500">error</span>
                 <p className="text-red-500">{errorMessage}</p>
               </div>
-            </Card>
+            </div>
           </div>
         )}
 
         {/* Autoplay Prompt */}
         {showAutoplayPrompt && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-            <Card className="max-w-md mx-4 p-6" glassmorphism={true}>
+            <div className="bg-card-light dark:bg-card-dark max-w-md mx-4 p-6 rounded-xl border border-border backdrop-blur-md">
               <h3 className="text-lg font-semibold text-text-primary mb-2">
                 Audio Playback Blocked
               </h3>
               <p className="text-text-secondary mb-4">
                 Your browser requires user interaction to play audio. Click the button below to start.
               </p>
-              <Button
+              <button
                 onClick={handlePlayPause}
-                variant="primary"
-                className="w-full"
+                className="w-full px-4 py-2 bg-primary text-white dark:text-[#111618] font-bold rounded-lg hover:bg-primary/90 transition-colors"
               >
                 Start Playing
-              </Button>
-            </Card>
+              </button>
+            </div>
           </div>
         )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left Column - Active Layers */}
-          <div className="lg:col-span-1">
-            <ActiveLayers
-              layers={activeLayers}
-              onRemove={handleRemoveSound}
-              onVolumeChange={handleLayerVolumeChange}
-            />
-          </div>
+        {/* Focus Mode Presets */}
+        <FocusModePresets
+          presets={FOCUS_MODE_PRESETS}
+          activePresetId={activePresetId}
+          onSelectPreset={handleSelectPreset}
+        />
 
-          {/* Right Column - Available Sounds */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* Focus Mode Presets */}
-            <div>
-              <h2 className="text-lg font-semibold text-text-primary mb-3">
-                Focus Mode Presets
-              </h2>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                {FOCUS_MODE_PRESETS.map((preset) => (
-                  <Button
-                    key={preset.id}
-                    onClick={() => handleLoadPreset(preset.id)}
-                    variant="secondary"
-                    className="flex flex-col items-center gap-2 py-4"
-                  >
-                    <span className="material-symbols-outlined text-2xl">
-                      {preset.icon}
-                    </span>
-                    <span className="text-sm font-medium">{preset.name}</span>
-                  </Button>
-                ))}
+        {/* Search and Filter */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
+          <h3 className="text-xl font-bold text-text-primary">Sound Layers</h3>
+          <div className="flex items-center gap-3 w-full sm:w-auto">
+            <div className="relative w-full sm:w-64 group">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <span className="material-symbols-outlined text-gray-400 !text-[20px] group-focus-within:text-primary transition-colors">
+                  search
+                </span>
               </div>
-            </div>
-
-            {/* Search Bar */}
-            <Input
-              type="text"
-              placeholder="Search sounds..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              fullWidth
-            />
-
-            {/* Available Sounds */}
-            <div>
-              <h2 className="text-lg font-semibold text-text-primary mb-3">
-                Available Sounds
-              </h2>
-              <SoundCategories
-                sounds={filteredSounds}
-                onAddSound={handleAddSound}
-                loadingStates={loadingStates}
-                disabledSounds={disabledSounds}
+              <input
+                className="block w-full pl-10 pr-3 py-2 border border-gray-200 dark:border-border rounded-lg leading-5 bg-white dark:bg-card text-gray-900 dark:text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary sm:text-sm transition-all shadow-sm"
+                placeholder="Find new sounds..."
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
+            <button
+              className="hidden sm:flex items-center justify-center size-10 shrink-0 rounded-lg border border-gray-200 dark:border-border bg-white dark:bg-card text-gray-500 hover:text-primary hover:border-primary/50 transition-colors"
+              title="Filter Categories"
+            >
+              <span className="material-symbols-outlined !text-[20px]">tune</span>
+            </button>
           </div>
         </div>
-      </div>
+
+        {/* Sound Categories */}
+        <SoundCategoriesCollapsible
+          sounds={filteredSounds}
+          activeLayers={activeLayers}
+          onVolumeChange={handleVolumeChange}
+          onToggleMute={handleToggleMute}
+        />
+      </main>
 
       {/* Floating Controls */}
       <FloatingControls
@@ -254,7 +240,7 @@ export default function MixerPage() {
         masterVolume={masterVolume}
         onPlayPause={handlePlayPause}
         onMasterVolumeChange={handleMasterVolumeChange}
-        disabled={activeLayers.length === 0}
+        disabled={!activeLayers.some((layer) => layer.volume > 0)}
       />
     </div>
   )

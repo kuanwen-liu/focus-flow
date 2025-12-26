@@ -14,6 +14,8 @@ const config: Config = {
         primary: 'var(--color-primary)',
         background: 'var(--color-background)',
         card: 'var(--color-card)',
+        'card-light': '#ffffff',
+        'card-dark': '#1c292f',
         border: 'var(--color-border)',
         'border-light': 'var(--color-border-light)',
         'text-primary': 'var(--color-text-primary)',
