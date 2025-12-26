@@ -4,7 +4,7 @@ Auto-generated from all feature plans. Last updated: 2025-12-25
 
 ## Active Technologies
 
-- TypeScript 5.3+ with Next.js 14 (App Router) (001-core-mixer-app)
+- TypeScript 5.3+ with Next.js 16.1.1 (App Router) (001-core-mixer-app)
 
 ## Project Structure
 
@@ -19,11 +19,11 @@ npm test && npm run lint
 
 ## Code Style
 
-TypeScript 5.3+ with Next.js 14 (App Router): Follow standard conventions
+TypeScript 5.3+ with Next.js 16.1.1 (App Router): Follow standard conventions
 
 ## Recent Changes
 
-- 001-core-mixer-app: Added TypeScript 5.3+ with Next.js 14 (App Router)
+- 001-core-mixer-app: Added TypeScript 5.3+ with Next.js 16.1.1 (App Router)
 
 <!-- MANUAL ADDITIONS START -->
 <!-- MANUAL ADDITIONS END -->

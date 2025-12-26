@@ -9,7 +9,7 @@ This document captures research findings, technology decisions, and best practic
 
 ---
 
-## 1. Next.js 14 App Router Best Practices
+## 1. Next.js 16.1.1 App Router Best Practices
 
 ### Decision: Use App Router with Client Components for Audio
 
@@ -656,7 +656,7 @@ if (!isMobile) {
 
 | Technology | Decision | Rationale |
 |-----------|----------|-----------|
-| Framework | Next.js 14 App Router | Modern routing, React Server Components, TypeScript support |
+| Framework | Next.js 16.1.1 App Router | Modern routing, React Server Components, TypeScript support |
 | Audio | HTML5 Audio API (multiple instances) | Native, no dependencies, sufficient for layering |
 | State | Zustand with persist middleware | Lightweight, TypeScript-first, automatic localStorage sync |
 | Animations | Framer Motion | Declarative, performant, integrates with Tailwind |

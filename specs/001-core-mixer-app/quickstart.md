@@ -27,8 +27,8 @@ npm install
 ```
 
 This will install:
-- Next.js 14
-- React 18
+- Next.js 16.1.1
+- React 19
 - TypeScript 5.3+
 - Tailwind CSS 3.4+
 - Framer Motion 11.x

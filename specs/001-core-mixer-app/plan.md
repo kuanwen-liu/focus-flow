@@ -11,9 +11,9 @@ Build a local-first ambient sound mixer web application with 4 core views (Landi
 
 ## Technical Context
 
-**Language/Version**: TypeScript 5.3+ with Next.js 14 (App Router)
+**Language/Version**: TypeScript 5.3+ with Next.js 16.1.1 (App Router)
 **Primary Dependencies**:
-- Next.js 14.x (React 18+)
+- Next.js 16.1.1 (React 19)
 - Tailwind CSS 3.4+
 - Framer Motion 11.x (animations and glassmorphism effects)
 - Zustand 4.x with persist middleware (state management)
@@ -240,7 +240,7 @@ All constitution principles pass without exceptions. No complexity justification
 
 ### Research Tasks
 
-1. **Next.js 14 App Router best practices**
+1. **Next.js 16.1.1 App Router best practices**
    - Client vs server component patterns for audio playback
    - Route handling for dynamic mix IDs (`/edit/[id]`)
    - Public folder asset serving for sound files
