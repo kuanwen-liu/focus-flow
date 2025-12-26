@@ -20,7 +20,7 @@ export const Hero = () => {
 
         bars.push({
             id: i,
-            height: height * 100,
+            height: height * 200,
             delay: i * 0.01,
         });
         }
@@ -93,33 +93,33 @@ export const Hero = () => {
 
             {/* Visual container */}
             <div className="relative flex items-center justify-center aspect-[21/9] w-full rounded-xl bg-gradient-to-b from-[#151f24] to-[#101d22] border border-gray-200 dark:border-[#283539] overflow-hidden">
-              {spectrogramBars.map((bar) => (
-                <motion.div
-                  key={bar.id}
-                  initial={{ height: '10%', opacity: 0 }}
-                  animate={{
-                    height: [
-                      '10%',
-                      `${bar.height}%`,
-                      `${bar.height * 0.7}%`,
-                      `${bar.height * 0.9}%`,
-                      `${bar.height * 0.6}%`,
-                      `${bar.height}%`,
-                    ],
-                    opacity: [0, 1, 1, 1, 1, 1],
-                  }}
-                  transition={{
-                    duration: 3,
-                    delay: bar.delay,
-                    repeat: Infinity,
-                    ease: 'easeInOut',
-                    times: [0, 0.2, 0.4, 0.6, 0.8, 1],
-                  }}
-                  className="w-1.5 bg-gradient-to-t from-primary/60 via-primary to-primary/80 rounded-full shadow-[0_0_10px_var(--color-primary)]"
-                />
-              ))}
-              {/* <div className="flex items-end justify-center gap-1 h-24 w-full px-20 opacity-80">
-                {[
+              <div className="flex items-end justify-center gap-1 h-24 w-full px-20 opacity-80">
+                {spectrogramBars.map((bar) => (
+                  <motion.div
+                    key={bar.id}
+                    initial={{ height: '10%', opacity: 0 }}
+                    animate={{
+                      height: [
+                        '10%',
+                        `${bar.height}%`,
+                        `${bar.height * 0.7}%`,
+                        `${bar.height * 0.9}%`,
+                        `${bar.height * 0.6}%`,
+                        `${bar.height}%`,
+                      ],
+                      opacity: [0, 1, 1, 1, 1, 1],
+                    }}
+                    transition={{
+                      duration: 3,
+                      delay: bar.delay,
+                      repeat: Infinity,
+                      ease: 'easeInOut',
+                      times: [0, 0.2, 0.4, 0.6, 0.8, 1],
+                    }}
+                    className="w-1.5 bg-gradient-to-t from-primary/60 via-primary to-primary/80 rounded-full shadow-[0_0_10px_var(--color-primary)]"
+                  />
+                ))}
+                {/* {[
                   { height: '40%', opacity: 0.8, duration: 1.5 },
                   { height: '70%', opacity: 0.6, duration: 1.2 },
                   { height: '50%', opacity: 0.9, duration: 1.8 },
@@ -144,8 +144,8 @@ export const Hero = () => {
                       ease: 'easeInOut',
                     }}
                   />
-                ))}
-              </div> */}
+                ))} */}
+              </div>
             </div>
           </motion.div>
         </div>
