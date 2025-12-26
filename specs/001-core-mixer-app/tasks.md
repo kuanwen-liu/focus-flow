@@ -200,29 +200,29 @@
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [ ] T107 [P] Add responsive breakpoints for mobile (sm:, md:, lg:) across all components
-- [ ] T108 [P] Add touch gesture handling for sliders on mobile devices per research.md
-- [ ] T109 [P] Optimize Framer Motion animations for 60fps with transform/opacity only
-- [ ] T110 [P] Add "Save Mix" button to Mixer Interface header for easy access
-- [ ] T111 [P] Add "My Library" navigation link to Header component linking to /library
-- [ ] T112 [P] Add "Return to Mixer" button in Library and Edit views
-- [ ] T113 Add localStorage detection with graceful error message if unavailable
-- [ ] T114 Add duplicate mix name handling (auto-append number or prompt for new name)
-- [ ] T115 Add empty state messages for "No mixes saved yet" in Library
-- [ ] T116 Add empty state for "No sounds in category" if filtering returns no results
-- [ ] T117 [P] Add loading skeleton states for mix cards in Library page
-- [ ] T118 [P] Add error boundary component wrapping app for global error handling
-- [ ] T119 Add 404 page in app/not-found.tsx with navigation back to home
-- [ ] T120 [P] Verify all colors use CSS variables (no hard-coded hex values)
-- [ ] T121 [P] Verify visual design matches /docs reference screenshots (manual QA)
-- [ ] T122 [P] Verify all sounds load correctly from /sounds folder (manual QA)
-- [ ] T123 Add meta tags in app/layout.tsx for SEO (title, description, og:image)
-- [ ] T124 [P] Add favicon and app icons in public/ folder
-- [ ] T125 Test on Chrome, Firefox, Safari, Edge (last 2 versions) for compatibility
-- [ ] T126 Test autoplay policy handling on iOS Safari and Android Chrome
-- [ ] T127 Test localStorage persistence across page refreshes
-- [ ] T128 Test maximum 10 layer limit with error notification
-- [ ] T129 Test localStorage quota handling with 50+ saved mixes
+- [X] T107 [P] Add responsive breakpoints for mobile (sm:, md:, lg:) across all components
+- [X] T108 [P] Add touch gesture handling for sliders on mobile devices per research.md
+- [X] T109 [P] Optimize Framer Motion animations for 60fps with transform/opacity only
+- [X] T110 [P] Add "Save Mix" button to Mixer Interface header for easy access
+- [X] T111 [P] Add "My Library" navigation link to Header component linking to /library
+- [X] T112 [P] Add "Return to Mixer" button in Library and Edit views
+- [X] T113 Add localStorage detection with graceful error message if unavailable
+- [X] T114 Add duplicate mix name handling (auto-append number or prompt for new name)
+- [X] T115 Add empty state messages for "No mixes saved yet" in Library
+- [X] T116 Add empty state for "No sounds in category" if filtering returns no results
+- [X] T117 [P] Add loading skeleton states for mix cards in Library page
+- [X] T118 [P] Add error boundary component wrapping app for global error handling
+- [X] T119 Add 404 page in app/not-found.tsx with navigation back to home
+- [X] T120 [P] Verify all colors use CSS variables (no hard-coded hex values)
+- [X] T121 [P] Verify visual design matches /docs reference screenshots (manual QA)
+- [X] T122 [P] Verify all sounds load correctly from /sounds folder (manual QA)
+- [X] T123 Add meta tags in app/layout.tsx for SEO (title, description, og:image)
+- [X] T124 [P] Add favicon and app icons in public/ folder
+- [X] T125 Test on Chrome, Firefox, Safari, Edge (last 2 versions) for compatibility
+- [X] T126 Test autoplay policy handling on iOS Safari and Android Chrome
+- [X] T127 Test localStorage persistence across page refreshes
+- [X] T128 Test maximum 10 layer limit with error notification
+- [X] T129 Test localStorage quota handling with 50+ saved mixes
 
 ---
 

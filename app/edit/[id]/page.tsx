@@ -355,12 +355,21 @@ export default function EditMixPage() {
       {/* Sticky Footer */}
       <div className="fixed bottom-0 left-0 right-0 bg-card/95 backdrop-blur-md border-t border-border p-4 z-40">
         <div className="max-w-4xl mx-auto flex items-center justify-between gap-4">
-          <button
-            onClick={handleDiscard}
-            className="px-6 py-3 bg-background border border-border rounded-lg text-text-primary font-medium hover:border-red-500 hover:text-red-500 transition-colors"
-          >
-            Discard Changes
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={handleDiscard}
+              className="px-6 py-3 bg-background border border-border rounded-lg text-text-primary font-medium hover:border-red-500 hover:text-red-500 transition-colors"
+            >
+              Discard Changes
+            </button>
+            <button
+              onClick={() => router.push('/mixer')}
+              className="px-6 py-3 bg-background border border-border rounded-lg text-text-secondary font-medium hover:border-primary hover:text-primary transition-colors flex items-center gap-2"
+            >
+              <span className="material-symbols-outlined text-xl">arrow_back</span>
+              <span className="hidden sm:inline">Return to Mixer</span>
+            </button>
+          </div>
           <div className="flex items-center gap-3">
             {hasUnsavedChanges && (
               <span className="text-sm text-orange-500 flex items-center gap-2">
@@ -368,7 +377,7 @@ export default function EditMixPage() {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-500 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
                 </span>
-                Unsaved changes
+                <span className="hidden sm:inline">Unsaved changes</span>
               </span>
             )}
             <button

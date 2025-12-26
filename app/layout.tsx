@@ -1,12 +1,33 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import './globals.css'
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
 import { ThemeProvider } from '@/components/layout/ThemeProvider'
+import { ErrorBoundary } from '@/components/layout/ErrorBoundary'
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+}
 
 export const metadata: Metadata = {
-  title: 'Focus Flow - Ambient Sound Mixer',
-  description: 'Layer ambient sounds to create your perfect focus environment',
+  title: 'FocusFlow - Find Your Frequency | Ambient Sound Mixer',
+  description: 'Mix ambient layers to block out the world and deepen your focus. Create custom soundscapes with rain, white noise, lo-fi beats, and more. Your personal cocoon of sound awaits.',
+  keywords: ['ambient sounds', 'focus music', 'white noise', 'productivity', 'concentration', 'sound mixer', 'meditation', 'deep work'],
+  authors: [{ name: 'FocusFlow' }],
+  openGraph: {
+    title: 'FocusFlow - Find Your Frequency',
+    description: 'Mix ambient layers to block out the world and deepen your focus.',
+    type: 'website',
+    locale: 'en_US',
+    siteName: 'FocusFlow',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'FocusFlow - Find Your Frequency',
+    description: 'Mix ambient layers to block out the world and deepen your focus.',
+  },
 }
 
 export default function RootLayout({
@@ -23,11 +44,13 @@ export default function RootLayout({
         />
       </head>
       <body className="flex flex-col min-h-screen">
-        <ThemeProvider>
-          <Header />
-          <div className="flex-1">{children}</div>
-          <Footer />
-        </ThemeProvider>
+        <ErrorBoundary>
+          <ThemeProvider>
+            <Header />
+            <div className="flex-1">{children}</div>
+            <Footer />
+          </ThemeProvider>
+        </ErrorBoundary>
       </body>
     </html>
   )

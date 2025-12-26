@@ -181,6 +181,16 @@ function MixerContent() {
     }
 
     try {
+      // Check for duplicate name and auto-append number if needed
+      const existingMixes = useMixStore.getState().mixes
+      let finalName = name
+      let counter = 1
+
+      while (existingMixes.some(m => m.name === finalName)) {
+        finalName = `${name} (${counter})`
+        counter++
+      }
+
       // Generate unique ID
       const id = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`
       const now = new Date().toISOString()
@@ -188,7 +198,7 @@ function MixerContent() {
       // Create mix object
       const mix: Mix = {
         id,
-        name,
+        name: finalName,
         layers: activeLayers.map((layer) => ({
           soundId: layer.soundId,
           soundName: layer.soundName,
@@ -208,7 +218,10 @@ function MixerContent() {
       setShowSaveDialog(false)
 
       // Show success message
-      setErrorMessage(`Mix "${name}" saved successfully!`)
+      const message = finalName !== name
+        ? `Mix saved as "${finalName}" (name was already in use)`
+        : `Mix "${finalName}" saved successfully!`
+      setErrorMessage(message)
       setTimeout(() => setErrorMessage(null), 3000)
     } catch (error: any) {
       // Handle localStorage quota error

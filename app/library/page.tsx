@@ -105,19 +105,33 @@ export default function LibraryPage() {
           />
         </div>
 
-        {/* Create New Mix Button */}
-        <motion.button
-          onClick={handleCreateNew}
-          className="mb-8 flex items-center gap-2 px-6 py-3 bg-primary text-dark rounded-xl font-medium hover:shadow-[0_0_20px_rgba(19,182,236,0.4)]"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: 0.2 }}
-        >
-          <span className="material-symbols-outlined text-xl">add</span>
-          Create New Mix
-        </motion.button>
+        {/* Action Buttons */}
+        <div className="mb-8 flex flex-wrap gap-3">
+          <motion.button
+            onClick={handleCreateNew}
+            className="flex items-center gap-2 px-6 py-3 bg-primary text-dark rounded-xl font-medium hover:shadow-[0_0_20px_rgba(19,182,236,0.4)]"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: 0.2 }}
+          >
+            <span className="material-symbols-outlined text-xl">add</span>
+            Create New Mix
+          </motion.button>
+          <motion.button
+            onClick={() => router.push('/mixer')}
+            className="flex items-center gap-2 px-6 py-3 bg-background border border-border text-text-primary rounded-xl font-medium hover:border-primary"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: 0.25 }}
+          >
+            <span className="material-symbols-outlined text-xl">arrow_back</span>
+            Return to Mixer
+          </motion.button>
+        </div>
 
         {/* Mixes Grid */}
         {filteredMixes.length === 0 ? (
