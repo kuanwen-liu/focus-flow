@@ -41,16 +41,16 @@ export const FloatingControls: FC<FloatingControlsProps> = ({
     <motion.div
       initial={{ y: 100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-[500px]"
+      className="fixed bottom-6 left-0 right-0 mx-auto z-50 w-[95%] max-w-[500px]"
     >
-      <div className="bg-card-light/90 dark:bg-card/90 backdrop-blur-xl border border-gray-200 dark:border-border-light p-4 rounded-2xl shadow-2xl flex items-center justify-between gap-6">
+      <div className="bg-white/90 dark:bg-[#1c292f]/90 backdrop-blur-xl border border-gray-200 dark:border-[#3b4d54] p-4 rounded-2xl shadow-2xl flex items-center justify-between gap-6">
         {/* Play/Pause Button */}
         <button
           onClick={onPlayPause}
           disabled={disabled}
-          className={`size-12 shrink-0 rounded-full bg-primary hover:bg-primary/90 text-[#111618] flex items-center justify-center transition-transform hover:scale-105 ${
-            isPlaying ? 'shadow-[0_0_20px_rgba(19,182,236,0.4)]' : ''
-          } ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+          className={`size-12 shrink-0 rounded-full bg-primary hover:bg-primary/90 flex items-center justify-center transition-transform hover:scale-105 shadow-[0_0_20px_rgba(19,182,236,0.4)] ${
+            disabled ? 'opacity-50 cursor-not-allowed' : ''
+          }`}
         >
           <span className="material-symbols-outlined !text-[32px] ml-1">
             {isPlaying ? 'pause' : 'play_arrow'}
@@ -81,9 +81,9 @@ export const FloatingControls: FC<FloatingControlsProps> = ({
                 padding: 0,
               }}
             />
-            <div className="h-2 w-full rounded-full bg-gray-200 dark:bg-background overflow-hidden pointer-events-none">
+            <div className="h-2 w-full rounded-full bg-gray-200 dark:bg-[#111618] overflow-hidden pointer-events-none">
               <div
-                className="h-full bg-white transition-all duration-150"
+                className="h-full rounded-full bg-primary transition-all duration-150"
                 style={{ width: `${localVolume}%` }}
               />
             </div>
@@ -103,7 +103,7 @@ export const FloatingControls: FC<FloatingControlsProps> = ({
             </button>
           )}
           <button
-            className="size-10 rounded-full hover:bg-gray-100 dark:hover:bg-border text-gray-500 dark:text-gray-400 flex items-center justify-center transition-colors"
+            className="size-10 rounded-full hover:bg-gray-100 dark:hover:bg-[#283539] text-gray-500 dark:text-gray-400 flex items-center justify-center transition-colors"
             title="Timer (Coming Soon)"
           >
             <span className="material-symbols-outlined">timer</span>

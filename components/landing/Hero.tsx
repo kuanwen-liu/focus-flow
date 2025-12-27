@@ -56,7 +56,7 @@ export const Hero = () => {
             className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-wider"
           >
             <span className="w-2 h-2 rounded-full bg-primary animate-ping" />
-            Version 2.0 Now Live
+            Version 1.0 Now Live
           </motion.div>
 
           {/* Hero Title and Description */}
