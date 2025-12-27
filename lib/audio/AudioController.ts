@@ -8,6 +8,7 @@ type EventHandler = (...args: any[]) => void
 
 export class AudioController {
   private layers: Map<string, AudioLayer> = new Map()
+  private originalVolumes: Map<string, number> = new Map()
   private _masterVolume: number = 0.8
   private _isPlaying: boolean = false
   private eventHandlers: Map<string, EventHandler[]> = new Map()
@@ -75,6 +76,7 @@ export class AudioController {
       this.emit('loadingStateChange', { soundId, state: 'ready', timestamp: Date.now() })
 
       this.layers.set(layerId, audioLayer)
+      this.originalVolumes.set(layerId, volume)
 
       this.emit('layerAdded', { layer: audioLayer.toJSON(), timestamp: Date.now() })
 
@@ -104,6 +106,7 @@ export class AudioController {
     if (layer) {
       layer.destroy()
       this.layers.delete(layerId)
+      this.originalVolumes.delete(layerId)
       this.emit('layerRemoved', {
         layerId,
         soundName: layer.soundName,
@@ -115,7 +118,8 @@ export class AudioController {
   setLayerVolume(layerId: string, volume: number): void {
     const layer = this.layers.get(layerId)
     if (layer) {
-      layer.volume = volume
+      this.originalVolumes.set(layerId, volume)
+      layer.volume = volume * this._masterVolume
       this.emit('volumeChange', {
         type: 'layer',
         layerId,
@@ -128,10 +132,10 @@ export class AudioController {
   setMasterVolume(volume: number): void {
     this._masterVolume = Math.max(0, Math.min(1, volume))
 
-    // Apply master volume to all layers
-    this.layers.forEach((layer) => {
-      // Store original volume and apply master multiplier
-      const effectiveVolume = layer.volume * this._masterVolume
+    // Apply master volume to all layers using their ORIGINAL volumes
+    this.layers.forEach((layer, layerId) => {
+      const originalVolume = this.originalVolumes.get(layerId) || layer.volume
+      const effectiveVolume = originalVolume * this._masterVolume
       layer.volume = effectiveVolume
     })
 
@@ -215,6 +219,7 @@ export class AudioController {
   clearAll(): void {
     this.layers.forEach((layer) => layer.destroy())
     this.layers.clear()
+    this.originalVolumes.clear()
     this._isPlaying = false
     this.emit('playbackStateChange', {
       isPlaying: false,

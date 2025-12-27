@@ -1,6 +1,6 @@
 'use client'
 
-import { FC, useState, useEffect } from 'react'
+import { FC, useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 
 interface FloatingControlsProps {
@@ -21,20 +21,27 @@ export const FloatingControls: FC<FloatingControlsProps> = ({
   disabled = false,
 }) => {
   const [localVolume, setLocalVolume] = useState(masterVolume)
+  const targetVolumeRef = useRef(masterVolume)
+  const isDraggingRef = useRef(false)
 
-  // Sync local volume when prop changes
+  // Sync local volume when prop changes (but not while dragging)
   useEffect(() => {
-    setLocalVolume(masterVolume)
+    if (!isDraggingRef.current) {
+      setLocalVolume(masterVolume)
+      targetVolumeRef.current = masterVolume
+    }
   }, [masterVolume])
 
   const handleVolumeInput = (newVolume: number) => {
+    isDraggingRef.current = true
     setLocalVolume(newVolume)
+    targetVolumeRef.current = newVolume
   }
 
   const handleVolumeCommit = () => {
-    if (localVolume !== masterVolume) {
-      onMasterVolumeChange(localVolume)
-    }
+    isDraggingRef.current = false
+    // Use ref value to avoid race conditions
+    onMasterVolumeChange(targetVolumeRef.current)
   }
 
   return (
